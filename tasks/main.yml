@@ -1,0 +1,10 @@
+---
+
+- include: "{{ jenkins_install_via }}/install.yml"
+
+- include: "configure-jenkins.yml"
+
+- include: "{{ jenkins_install_via }}/restart.yml"
+
+- include: "configure-jobs.yml"
+- include: "{{ jenkins_after_config_jobs_file | default('empty.yml') }}"

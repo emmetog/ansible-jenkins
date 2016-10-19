@@ -1,0 +1,27 @@
+---
+
+- name: Configuration file is up to date (config.xml)
+  template:
+    src: "{{ jenkins_source_dir_configs }}/config.xml"
+    dest: "{{ jenkins_home }}/config.xml"
+    mode: "0770"
+
+- name: Configuration file is up to date (credentials.xml)
+  template:
+    src: "{{ jenkins_source_dir_configs }}/credentials.xml"
+    dest: "{{ jenkins_home }}/credentials.xml"
+    mode: "0770"
+
+- name: Plugins are installed
+  shell: "curl -X POST \
+    -d '<jenkins><install plugin=\"{{ item }}@latest\" /></jenkins>' \
+    --header 'Content-Type: text/xml' \
+    {{ jenkins_url }}:{{ jenkins_port }}/pluginManager/installNecessaryPlugins"
+  args:
+    creates: "{{ jenkins_home }}/plugins/{{ item }}"
+  with_items: jenkins_plugins
+  register: plugins_result
+
+- wait_for:
+    path: "{{jenkins_home }}/plugins/{{ item }}"
+  with_items: jenkins_plugins

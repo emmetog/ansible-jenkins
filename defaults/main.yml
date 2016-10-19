@@ -1,0 +1,30 @@
+---
+
+jenkins_version: "1.642.4" # The exact version of jenkins to deploy
+jenkins_url: "http://127.0.0.1" # The url that Jenkins will be accessible on
+jenkins_port: "8080" # The port that Jenkins will listen on
+jenkins_home: /data/jenkins # The directory on the server where the Jenkins configs will live
+
+# If you need to override any java options then do that here.
+jenkins_java_opts: "-Djenkins.install.runSetupWizard=false"
+
+# The locations of the configuration files for jenkins
+jenkins_source_dir_configs: "{{ playbook_dir }}/jenkins-configs"
+jenkins_source_dir_jobs: "{{ jenkins_source_dir_configs }}/jobs"
+
+# The names of the jobs (an xml must exist in jenkins_source_dir_jobs with these names)
+jenkins_jobs: []
+
+# These plugins will be installed in the jenkins instance
+jenkins_plugins:
+  - git
+  - log-parser
+  - copyartifact
+  - workflow-aggregator
+  - workflow-multibranch
+  - docker-workflow
+  - template-project
+  - ec2
+
+# Configs specific to the "docker" method of running jenkins
+jenkins_docker_container_name: jenkins

@@ -1,0 +1,22 @@
+---
+
+- name: Job directories are present
+  file:
+    path: "{{ jenkins_home }}/jobs/{{ item }}"
+    state: directory
+    mode: 0777
+  with_items: jenkins_jobs
+
+- name: Jobs are present
+  template:
+    src: "{{ jenkins_source_dir_jobs }}/{{ item }}.xml"
+    dest: "{{ jenkins_home }}/jobs/{{ item }}/config.xml"
+    mode: 0777
+  with_items: jenkins_jobs
+
+- name: Jenkins is reloaded
+  uri:
+    url: "{{ jenkins_url }}:{{ jenkins_port }}/reload"
+    method: POST
+    status_code: 200,302
+  ignore_errors: yes

@@ -1,0 +1,21 @@
+---
+
+  # Workaround to fix the bug in restarting containers from Ansible 2
+
+- name: Container is stopped
+  docker:
+    name: "{{ jenkins_docker_container_name }}"
+    image: "jenkins:{{ jenkins_version }}"
+    state: stopped
+
+- name: Container is running
+  docker:
+    name: "{{ jenkins_docker_container_name }}"
+    image: "jenkins:{{ jenkins_version }}"
+    ports: "{{ jenkins_port }}:8080"
+    volumes:
+      - "{{ jenkins_home }}:/var/jenkins_home"
+    env:
+      JAVA_OPTS: "{{ jenkins_java_opts }}"
+
+- pause: seconds=15

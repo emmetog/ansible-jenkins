@@ -1,0 +1,22 @@
+---
+
+- name: Ensure jenkins home dir is created
+  file:
+    path: "{{ jenkins_home }}"
+    mode: 0777
+    recurse: yes
+    state: directory
+
+- name: Container is running
+  docker:
+    name: "{{ jenkins_docker_container_name }}"
+    image: "jenkins:{{ jenkins_version }}"
+    ports: "{{ jenkins_port }}:8080"
+    volumes:
+      - "{{ jenkins_home }}:/var/jenkins_home"
+    env:
+      JAVA_OPTS: "{{ jenkins_java_opts }}"
+  register: container_result
+
+- pause: seconds=45
+  when: container_result|changed
