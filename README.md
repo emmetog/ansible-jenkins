@@ -1,7 +1,18 @@
 Ansible Role for Jenkins
 ========================
 
-Installs and optionally configures Jenkins using Ansible.
+Installs and completely configures Jenkins using Ansible.
+
+This role is used when you want all your Jenkins configuration 
+in version control so you can deploy Jenkins repeatably 
+and reliably and you can treat your Jenkins as a [Cow instead 
+of a Pet](https://blog.engineyard.com/2014/pets-vs-cattle).
+
+If you are looking for a role to install Jenkins and you 
+are ok treating your Jenkins as a pet then you don't need 
+this role, have a look at the 
+[geerlingguy/ansible-role-jenkins](https://github.com/geerlingguy/ansible-role-jenkins)
+role instead.
 
 Requirements
 ------------
