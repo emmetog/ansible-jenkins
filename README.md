@@ -262,6 +262,14 @@ credentials that you need, for example:
 </com.cloudbees.plugins.credentials.SystemCredentialsProvider>
 ```
 
+Making Changes
+--------------
+
+When you want to make a big change in a configuration file 
+or you want to add a new job the normal workflow is to make 
+the change in the Jenkins UI 
+first, then copy the resulting XML back into your VCS.
+
 License
 -------
 
