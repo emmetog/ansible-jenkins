@@ -2,26 +2,49 @@
 
 - name: Configuration file is up to date (config.xml)
   template:
-    src: "{{ jenkins_source_dir_configs }}/config.xml"
+    src: "{{ jenkins_source_config_xml }}"
     dest: "{{ jenkins_home }}/config.xml"
-    mode: "0770"
+    mode: 0770
+    owner: "{{ jenkins_config_owner }}"
+    group: "{{ jenkins_config_group }}"
 
 - name: Configuration file is up to date (credentials.xml)
   template:
-    src: "{{ jenkins_source_dir_configs }}/credentials.xml"
+    src: "{{ jenkins_source_credentials_xml }}"
     dest: "{{ jenkins_home }}/credentials.xml"
-    mode: "0770"
+    mode: 0770
+    owner: "{{ jenkins_config_owner }}"
+    group: "{{ jenkins_config_group }}"
+
+- name: get token for jenkins api
+  uri:
+    url: "{{ jenkins_url }}:{{ jenkins_port }}/crumbIssuer/api/xml?xpath=concat(//crumbRequestField,\":\",//crumb)"
+  register: jenkins_token
+
+- debug:
+    msg: "{{ jenkins_token }}"
 
 - name: Plugins are installed
-  shell: "curl -X POST \
-    -d '<jenkins><install plugin=\"{{ item }}@latest\" /></jenkins>' \
-    --header 'Content-Type: text/xml' \
-    {{ jenkins_url }}:{{ jenkins_port }}/pluginManager/installNecessaryPlugins"
-  args:
-    creates: "{{ jenkins_home }}/plugins/{{ item }}"
-  with_items: jenkins_plugins
-  register: plugins_result
+  uri:
+    url: "{{ jenkins_url }}:{{ jenkins_port }}/pluginManager/installNecessaryPlugins"
+    method: POST
+    headers:
+      Content-Type: "text/xml"
+      "{{ jenkins_token.stdout }}"
+    body: "<jenkins><install plugin=\"{{ item }}@latest\" /></jenkins>"
+    status_code: 200,302
+  with_items: "{{ jenkins_plugins }}"
+
+- name: Custom plugins are installed
+  copy:
+    src: "{{ item }}"
+    dest: "{{ jenkins_home }}/plugins/"
+    owner: "{{ jenkins_config_owner }}"
+    group: "{{ jenkins_config_group }}"
+    mode: 0644
+  with_items: "{{ jenkins_custom_plugins }}"
+  when: jenkins_custom_plugins is defined
 
 - wait_for:
     path: "{{jenkins_home }}/plugins/{{ item }}"
-  with_items: jenkins_plugins
+  with_items: "{{ jenkins_plugins }}"

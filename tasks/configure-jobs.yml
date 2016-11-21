@@ -5,14 +5,14 @@
     path: "{{ jenkins_home }}/jobs/{{ item }}"
     state: directory
     mode: 0777
-  with_items: jenkins_jobs
+  with_items: "{{ jenkins_jobs }}"
 
 - name: Jobs are present
-  template:
-    src: "{{ jenkins_source_dir_jobs }}/{{ item }}.xml"
+  copy:
+    src: "{{ jenkins_source_dir_jobs }}/{{ item }}/config.xml"
     dest: "{{ jenkins_home }}/jobs/{{ item }}/config.xml"
     mode: 0777
-  with_items: jenkins_jobs
+  with_items: "{{ jenkins_jobs }}"
 
 - name: Jenkins is reloaded
   uri:
