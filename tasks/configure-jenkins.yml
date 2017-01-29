@@ -8,7 +8,7 @@
     owner: "{{ jenkins_config_owner }}"
     group: "{{ jenkins_config_group }}"
 
-- name: Confige userdata
+- name: Configure userdata
   template:
     src: "{{ jenkins_source_dir_configs }}/{{ item.src }}"
     dest: "{{ jenkins_home }}/{{ item.dest }}"
