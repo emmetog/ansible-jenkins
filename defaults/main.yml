@@ -17,7 +17,13 @@ jenkins_source_dir_configs: "{{ playbook_dir }}/jenkins-configs"
 jenkins_source_dir_jobs: "{{ jenkins_source_dir_configs }}/jobs"
 
 jenkins_source_config_xml: "{{ jenkins_source_dir_configs }}/config.xml"
-jenkins_source_credentials_xml: "{{ jenkins_source_dir_configs }}/credentials.xml"
+
+jenkins_include_userdata: false
+
+jenkins_userdata: {} # src and dest names
+
+jenkins_include_secrets: false
+jenkins_source_secrets: "{{ jenkins_source_dir_configs }}/secrets/"
 
 # The names of the jobs (an xml must exist in jenkins_source_dir_jobs with these names)
 jenkins_jobs: []

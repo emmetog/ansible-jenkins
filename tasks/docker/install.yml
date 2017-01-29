@@ -6,7 +6,6 @@
     mode: 0777
     owner: "{{ jenkins_config_owner }}"
     group: "{{ jenkins_config_group }}"
-    recurse: yes
     state: directory
 
 - name: Container is running
