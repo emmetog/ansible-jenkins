@@ -8,15 +8,15 @@
     owner: "{{ jenkins_config_owner }}"
     group: "{{ jenkins_config_group }}"
 
-- name: Configure userdata
+- name: Configure custom files
   template:
     src: "{{ jenkins_source_dir_configs }}/{{ item.src }}"
     dest: "{{ jenkins_home }}/{{ item.dest }}"
     mode: 0644
     owner: "{{ jenkins_config_owner }}"
     group: "{{ jenkins_config_group }}"
-  when: jenkins_include_userdata
-  with_items: "{{ jenkins_userdata }}"
+  when: jenkins_include_custom_files
+  with_items: "{{ jenkins_custom_files }}"
 
 - name: secrets dir is up to date
   copy:

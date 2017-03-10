@@ -1,6 +1,6 @@
 ---
 
-jenkins_version: "2.32.1" # The exact version of jenkins to deploy
+jenkins_version: "2.32.3" # The exact version of jenkins to deploy
 jenkins_url: "http://127.0.0.1" # The url that Jenkins will be accessible on
 jenkins_port: "8080" # The port that Jenkins will listen on
 jenkins_home: /data/jenkins # The directory on the server where the Jenkins configs will live
@@ -16,16 +16,18 @@ jenkins_config_group: "ubuntu"
 jenkins_source_dir_configs: "{{ playbook_dir }}/jenkins-configs"
 jenkins_source_dir_jobs: "{{ jenkins_source_dir_configs }}/jobs"
 
+# config.xml template source
 jenkins_source_config_xml: "{{ jenkins_source_dir_configs }}/config.xml"
 
-jenkins_include_userdata: false
+# Include custom files for jenkins installation
+jenkins_include_custom_files: false
+jenkins_custom_files: {} # src and dest names
 
-jenkins_userdata: {} # src and dest names
-
+# Include secrets directory during installation
 jenkins_include_secrets: false
 jenkins_source_secrets: "{{ jenkins_source_dir_configs }}/secrets/"
 
-# The names of the jobs (an xml must exist in jenkins_source_dir_jobs with these names)
+# The names of the jobs (config.xml must exist under jenkins_source_dir_jobs/job_name/)
 jenkins_jobs: []
 
 # These plugins will be installed in the jenkins instance
@@ -39,6 +41,7 @@ jenkins_plugins:
   - template-project
   - ec2
 
+# List of sources of custom jenkins plugins to install
 jenkins_custom_plugins: []
 
 # Configs specific to the "docker" method of running jenkins
