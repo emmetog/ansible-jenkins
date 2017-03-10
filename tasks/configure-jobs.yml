@@ -18,6 +18,7 @@
   uri:
     url: '{{ jenkins_url }}:{{ jenkins_port }}/crumbIssuer/api/xml?xpath=concat(//crumbRequestField,":",//crumb)'
     return_content: yes
+    status_code: 200,404
   register: jenkins_token
 
 - name: Reload Jenkins if crumb is enabled
