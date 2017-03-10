@@ -4,7 +4,8 @@ galaxy_info:
   description: Installs and completely configures Jenkins using Ansible
   # If the issue tracker for your role is not on github, uncomment the
   # next line and provide a value
-  # issue_tracker_url: http://example.com/issue/tracker
+  issue_tracker_url: https://github.com/emmetog/ansible-jenkins/issues
+
   # Some suggested licenses:
   # - BSD (default)
   # - MIT
@@ -13,7 +14,8 @@ galaxy_info:
   # - Apache
   # - CC-BY
   license: MIT
-  min_ansible_version: 1.2
+
+  min_ansible_version: 2.1
   #
   # Below are all platforms currently available. Just uncomment
   # the ones that apply to your role. If you don't see your 

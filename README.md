@@ -38,7 +38,7 @@ Role Variables
 --------------
 
 ```yml
-jenkins_version: "2.19.2" # The exact version of jenkins to deploy
+jenkins_version: "2.32.3" # The exact version of jenkins to deploy
 jenkins_url: "http://127.0.0.1" # The url that Jenkins will be accessible on
 jenkins_port: "8080" # The port that Jenkins will listen on
 jenkins_home: /data/jenkins # The directory on the server where the Jenkins configs will live
@@ -46,11 +46,26 @@ jenkins_home: /data/jenkins # The directory on the server where the Jenkins conf
 # If you need to override any java options then do that here.
 jenkins_java_opts: "-Djenkins.install.runSetupWizard=false"
 
+# Configuration files owner and group
+jenkins_config_owner: "ubuntu"
+jenkins_config_group: "ubuntu"
+
 # The locations of the configuration files for jenkins
 jenkins_source_dir_configs: "{{ playbook_dir }}/jenkins-configs"
 jenkins_source_dir_jobs: "{{ jenkins_source_dir_configs }}/jobs"
 
-# The names of the jobs (an xml must exist in jenkins_source_dir_jobs with these names)
+# config.xml template source
+jenkins_source_config_xml: "{{ jenkins_source_dir_configs }}/config.xml"
+
+# Include custom files for jenkins installation
+jenkins_include_custom_files: false
+jenkins_custom_files: {}
+
+# Include secrets directory during installation
+jenkins_include_secrets: false
+jenkins_source_secrets: "{{ jenkins_source_dir_configs }}/secrets/"
+
+# The names of the jobs (config.xml must exist under jenkins_source_dir_jobs/job_name/)
 jenkins_jobs: []
 
 # These plugins will be installed in the jenkins instance
@@ -63,6 +78,9 @@ jenkins_plugins:
   - docker-workflow
   - template-project
   - ec2
+
+# List of sources of custom jenkins plugins to install
+jenkins_custom_plugins: []
 
 # Configs specific to the "docker" method of running jenkins
 jenkins_docker_container_name: jenkins
@@ -79,10 +97,16 @@ Example Playbook
     jenkins_url: http://jenkins.example.com
     jenkins_port: 80
     jenkins_install_via: "docker"
-    jenkins_jobs: [
-        "my-cool-job",
-        "another-awesome-job"
-      ]
+    jenkins_jobs:
+        - "my-cool-job"
+        - "another-awesome-job"
+    jenkins_include_secrets: true
+    jenkins_include_custom_files: true
+    jenkins_custom_files:
+      - src: "jenkins.plugins.openstack.compute.UserDataConfig.xml"
+        dest: "jenkins.plugins.openstack.compute.UserDataConfig.xml"
+    jenkins_custom_plugins:
+        - "openstack-cloud-plugin/openstack-cloud.jpi"
       
   roles:
     - emmetog.jenkins
@@ -92,24 +116,24 @@ Jenkins Configs
 ---------------
 
 The example above will look for the job configs in 
-`{{ playbook_dir }}/jenkins-configs/jobs/my-cool-job.xml` and 
-`{{ playbook_dir }}/jenkins-configs/jobs/another-awesome-job.xml`. 
-It will also look for `{{ playbook_dir }}/jenkins-configs/config.xml` and 
-`{{ playbook_dir }}/jenkins-configs/credentials.xml`.
-These configs will be templated over to the server to be used 
-as the job configuration.
+`{{ playbook_dir }}/jenkins-configs/jobs/my-cool-job/config.xml` and 
+`{{ playbook_dir }}/jenkins-configs/jobs/another-awesome-job/config.xml`. 
 
-***NOTE***: These directories are customizable, see the `jenkins_source_dir_configs`
-and `jenkins_source_dir_jobs` role variables.
+***NOTE***: These directories are customizable, see the `jenkins_source_dir_configs` and `jenkins_source_dir_jobs` role variables.
 
-All the configs are templated so you can put variables in them,
+The role will also look for `{{ playbook_dir }}/jenkins-configs/config.xml`
+These config.xml will be templated over to the server to be used as the job configuration.
+It will upload the whole secrets directory under `{{ playbook_dir }}/jenkins-configs/secrets` and configure custom files provided under `{{ jenkins_custom_files }}` variable. Note that `{{ jenkins_include_secrets }}` and `{{ jenkins_include_custom_files }}` varibales should be set to true for these to work.
+Additionaly the role can install custom plugins by providing the .jpi or .hpi files as a list under `{{ jenkins_custom_plugins }}` variable.
+
+config.xml and custom files are templated so you can put variables in them,
 for example it would be a good idea to encrypt sensitive variables 
 in ansible vault.
 
 Example Job Configs
 -------------------
 
-Here's an example of what you could put in `{{ playbook_dir }}/jenkins-configs/jobs/my-cool-job.xml`:
+Here's an example of what you could put in `{{ playbook_dir }}/jenkins-configs/jobs/my-cool-job/config.xml`:
 
 ```xml
 <?xml version='1.0' encoding='UTF-8'?>
@@ -231,35 +255,6 @@ Jenkins configuration, for example:
     <nodeProperties/>
     <globalNodeProperties/>
 </hudson>
-```
-
-In `{{ jenkins_source_dir_configs }}/credentials.xml` you put any 
-credentials that you need, for example:
-```xml
-<?xml version='1.0' encoding='UTF-8'?>
-<com.cloudbees.plugins.credentials.SystemCredentialsProvider plugin="credentials@1.24">
-    <domainCredentialsMap class="hudson.util.CopyOnWriteMap$Hash">
-        <entry>
-            <com.cloudbees.plugins.credentials.domains.Domain>
-                <specifications/>
-            </com.cloudbees.plugins.credentials.domains.Domain>
-            <java.util.concurrent.CopyOnWriteArrayList>
-
-                <com.cloudbees.jenkins.plugins.sshcredentials.impl.BasicSSHUserPrivateKey plugin="ssh-credentials@1.12">
-                    <scope>GLOBAL</scope>
-                    <id>github-deploy-key-jenkins</id>
-                    <description>github-deploy-key-jenkins</description>
-                    <username>git</username>
-                    <passphrase></passphrase>
-                    <privateKeySource class="com.cloudbees.jenkins.plugins.sshcredentials.impl.BasicSSHUserPrivateKey$DirectEntryPrivateKeySource">
-                        <privateKey>{{ github_jenkins_deploy_key }}</privateKey>
-                    </privateKeySource>
-                </com.cloudbees.jenkins.plugins.sshcredentials.impl.BasicSSHUserPrivateKey>
-
-            </java.util.concurrent.CopyOnWriteArrayList>
-        </entry>
-    </domainCredentialsMap>
-</com.cloudbees.plugins.credentials.SystemCredentialsProvider>
 ```
 
 Making Changes
