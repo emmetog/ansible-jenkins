@@ -8,7 +8,7 @@
     group: "{{ jenkins_config_group }}"
     state: directory
 
-- name: Container is running
+- name: Container is running without SSL
   docker_container:
     name: "{{ jenkins_docker_container_name }}"
     image: "jenkins:{{ jenkins_version }}"
@@ -19,6 +19,21 @@
     env:
       JAVA_OPTS: "{{ jenkins_java_opts }}"
   register: container_result
+  when: jenkins_ssl_cert == ""
+
+- name: Container is running with SSL
+  docker_container:
+    name: "{{ jenkins_docker_container_name }}"
+    image: "jenkins:{{ jenkins_version }}"
+    published_ports:
+      - "{{ jenkins_port }}:8443"
+    volumes:
+      - "{{ jenkins_home }}:/var/jenkins_home"
+    env:
+      JAVA_OPTS: "{{ jenkins_java_opts }}"
+      JENKINS_OPTS: "--httpPort=-1 --httpsPort=8443 --httpsCertificate=/var/jenkins_home/{{ jenkins_ssl_cert }} --httpsPrivateKey=/var/jenkins_home/{{ jenkins_ssl_key }}"
+  register: container_result
+  when: not jenkins_ssl_cert == ""
 
 - pause:
     seconds: 45

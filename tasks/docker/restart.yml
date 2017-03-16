@@ -1,6 +1,6 @@
 ---
 
-- name: Container is running
+- name: Container is running (no SSL)
   docker_container:
     name: "{{ jenkins_docker_container_name }}"
     image: "jenkins:{{ jenkins_version }}"
@@ -10,5 +10,19 @@
     env:
       JAVA_OPTS: "{{ jenkins_java_opts }}"
     restart: yes
+  when: jenkins_ssl_cert == ""
+
+- name: Container is running (with SSL)
+  docker_container:
+    name: "{{ jenkins_docker_container_name }}"
+    image: "jenkins:{{ jenkins_version }}"
+    published_ports: "{{ jenkins_port }}:8443"
+    volumes:
+      - "{{ jenkins_home }}:/var/jenkins_home"
+    env:
+      JAVA_OPTS: "{{ jenkins_java_opts }}"
+      JENKINS_OPTS: "--httpPort=-1 --httpsPort=8443 --httpsCertificate=/var/jenkins_home/{{ jenkins_ssl_cert }} --httpsPrivateKey=/var/jenkins_home/{{ jenkins_ssl_key }}"
+    restart: yes
+  when: not jenkins_ssl_cert == ""
 
 - pause: seconds=15

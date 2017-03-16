@@ -3,6 +3,8 @@
 jenkins_version: "2.32.3" # The exact version of jenkins to deploy
 jenkins_url: "http://127.0.0.1" # The url that Jenkins will be accessible on
 jenkins_port: "8080" # The port that Jenkins will listen on
+jenkins_ssl_cert: "" # File containing the SSL cert + CA chain relative to jenkins_home
+jenkins_ssl_key: "" # File containing the SSL private key in RSA format relative to jenkins_home
 jenkins_home: /data/jenkins # The directory on the server where the Jenkins configs will live
 
 # If you need to override any java options then do that here.

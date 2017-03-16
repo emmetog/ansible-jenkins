@@ -41,6 +41,8 @@ Role Variables
 jenkins_version: "2.32.3" # The exact version of jenkins to deploy
 jenkins_url: "http://127.0.0.1" # The url that Jenkins will be accessible on
 jenkins_port: "8080" # The port that Jenkins will listen on
+jenkins_ssl_cert: "" # File containing the SSL cert + CA chain relative to jenkins_home
+jenkins_ssl_key: "" # File containing the SSL private key in RSA format relative to jenkins_home
 jenkins_home: /data/jenkins # The directory on the server where the Jenkins configs will live
 
 # If you need to override any java options then do that here.
@@ -86,8 +88,37 @@ jenkins_custom_plugins: []
 jenkins_docker_container_name: jenkins
 ```
 
-Example Playbook
-----------------
+Example Playbooks
+-----------------
+
+- With SSL support
+
+```yml
+- hosts: jenkins
+
+  vars:
+    jenkins_version: "1.642.4"
+    jenkins_url: https://jenkins.example.com
+    jenkins_port: 443
+    jenkins_ssl_cert: ssl/fullchain.pem
+    jenkins_ssl_key: ssl/privkey-rsa.pem
+    jenkins_install_via: "docker"
+    jenkins_jobs:
+        - "my-cool-job"
+        - "another-awesome-job"
+    jenkins_include_secrets: true
+    jenkins_include_custom_files: true
+    jenkins_custom_files:
+      - src: "jenkins.plugins.openstack.compute.UserDataConfig.xml"
+        dest: "jenkins.plugins.openstack.compute.UserDataConfig.xml"
+    jenkins_custom_plugins:
+        - "openstack-cloud-plugin/openstack-cloud.jpi"
+      
+  roles:
+    - emmetog.jenkins
+```
+
+- Without SSL support
 
 ```yml
 - hosts: jenkins
@@ -115,7 +146,7 @@ Example Playbook
 Jenkins Configs
 ---------------
 
-The example above will look for the job configs in 
+The examples above will look for the job configs in 
 `{{ playbook_dir }}/jenkins-configs/jobs/my-cool-job/config.xml` and 
 `{{ playbook_dir }}/jenkins-configs/jobs/another-awesome-job/config.xml`. 
 
