@@ -8,7 +8,7 @@
     group: "{{ jenkins_config_group }}"
     state: directory
 
-- name: Container is running
+- name: Container is running (with ingress port)
   docker_container:
     name: "{{ jenkins_docker_container_name }}"
     image: "jenkins:{{ jenkins_version }}"
@@ -19,6 +19,19 @@
     env:
       JAVA_OPTS: "{{ jenkins_java_opts }}"
   register: container_result
+  when: jenkins_docker_expose_port
+
+- name: Container is running (without ingress port)
+  docker_container:
+    name: "{{ jenkins_docker_container_name }}"
+    image: "jenkins:{{ jenkins_version }}"
+    expose: "8080"
+    volumes:
+      - "{{ jenkins_home }}:/var/jenkins_home"
+    env:
+      JAVA_OPTS: "{{ jenkins_java_opts }}"
+  register: container_result
+  when: not jenkins_docker_expose_port
 
 - pause:
     seconds: 45

@@ -83,7 +83,11 @@ jenkins_plugins:
 jenkins_custom_plugins: []
 
 # Configs specific to the "docker" method of running jenkins
+# The name of the jenkins container
 jenkins_docker_container_name: jenkins
+# Default, if true, the port will be exposed on the host (using "port")
+# If set to false, the port will only be exposed to other containers (using "expose")
+jenkins_docker_expose_port: true
 ```
 
 Example Playbook
@@ -122,6 +126,10 @@ as the HTTPS endpoint instead of configuring jenkins itself with HTTPS.
 This gives you more flexibility and better separation of concerns. See
 the documentation in those projects for more details on how to deploy
 the proxies and configure HTTPS.
+
+If using a reverse proxy in front of the jenkins instance you probably 
+want to set the `jenkins_docker_expose_port` var to false so that the 
+port is not exposed on the host, only to the reverse proxy.
 
 Jenkins Configs
 ---------------
