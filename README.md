@@ -112,6 +112,17 @@ Example Playbook
     - emmetog.jenkins
 ```
 
+HTTPS
+-----
+
+If you want to enable HTTPS on jenkins we recommend that you use a
+reverse proxy like [jwilder/nginx-proxy](https://github.com/jwilder/nginx-proxy)
+or [traefik](https://github.com/containous/traefik) and configure it
+as the HTTPS endpoint instead of configuring jenkins itself with HTTPS.
+This gives you more flexibility and better separation of concerns. See
+the documentation in those projects for more details on how to deploy
+the proxies and configure HTTPS.
+
 Jenkins Configs
 ---------------
 
