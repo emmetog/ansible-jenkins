@@ -98,7 +98,7 @@ Example Playbook
     jenkins_port: 80
     jenkins_install_via: "docker"
     jenkins_jobs:
-        - "my-cool-job"
+        - "my-first-job"
         - "another-awesome-job"
     jenkins_include_secrets: true
     jenkins_include_custom_files: true
@@ -116,7 +116,7 @@ Jenkins Configs
 ---------------
 
 The example above will look for the job configs in 
-`{{ playbook_dir }}/jenkins-configs/jobs/my-cool-job/config.xml` and 
+`{{ playbook_dir }}/jenkins-configs/jobs/my-first-job/config.xml` and 
 `{{ playbook_dir }}/jenkins-configs/jobs/another-awesome-job/config.xml`. 
 
 ***NOTE***: These directories are customizable, see the `jenkins_source_dir_configs` and `jenkins_source_dir_jobs` role variables.
@@ -133,37 +133,30 @@ in ansible vault.
 Example Job Configs
 -------------------
 
-Here's an example of what you could put in `{{ playbook_dir }}/jenkins-configs/jobs/my-cool-job/config.xml`:
+Here's an example of what you could put in `{{ playbook_dir }}/jenkins-configs/jobs/my-first-job/config.xml`:
 
 ```xml
 <?xml version='1.0' encoding='UTF-8'?>
-<flow-definition plugin="workflow-job@2.2">
+<project>
   <actions/>
-  <description>My Cool Job</description>
+  <description>My first job, it says "hello world"</description>
   <keepDependencies>false</keepDependencies>
   <properties/>
-  <definition class="org.jenkinsci.plugins.workflow.cps.CpsScmFlowDefinition" plugin="workflow-cps@2.4">
-    <scm class="hudson.plugins.git.GitSCM" plugin="git@2.4.4">
-      <configVersion>2</configVersion>
-      <userRemoteConfigs>
-        <hudson.plugins.git.UserRemoteConfig>
-          <url>git@github.com:emmetog/ansible-jenkins.git</url>
-          <credentialsId>github-deploy-key-jenkins</credentialsId>
-        </hudson.plugins.git.UserRemoteConfig>
-      </userRemoteConfigs>
-      <branches>
-        <hudson.plugins.git.BranchSpec>
-          <name>*/master</name>
-        </hudson.plugins.git.BranchSpec>
-      </branches>
-      <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
-      <submoduleCfg class="list"/>
-      <extensions/>
-    </scm>
-    <scriptPath>Jenkinsfile</scriptPath>
-  </definition>
+  <scm class="hudson.scm.NullSCM"/>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
   <triggers/>
-</flow-definition>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>echo &quot;Hello World!&quot;</command>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers/>
+  <buildWrappers/>
+</project>
 ```
 
 Example Jenkins Configs
