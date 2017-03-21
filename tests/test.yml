@@ -3,6 +3,8 @@
 
   vars:
     jenkins_install_via: "docker"
+    jenkins_config_owner: "root"
+    jenkins_config_group: "root"
 
   roles:
     - role_under_test
