@@ -16,7 +16,7 @@ env:
     run_opts: ""
 
 install:
-  - 'pip install --upgrade docker-py'
+  - 'pip install --upgrade ansible docker-py'
 
 script:
   # Ansible syntax check.
