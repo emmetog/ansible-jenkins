@@ -18,6 +18,9 @@ env:
 install:
   - 'pip install --upgrade ansible docker-py'
 
+  # Add ansible.cfg to pick up roles path.
+  - "{ echo '[defaults]'; echo 'roles_path = ../'; } >> ansible.cfg"
+
 script:
   # Ansible syntax check.
   - 'ansible-playbook tests/test.yml --syntax-check'

@@ -7,4 +7,4 @@
     jenkins_config_group: "root"
 
   roles:
-    - role_under_test
+    - "ansible-jenkins"
