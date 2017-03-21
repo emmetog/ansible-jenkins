@@ -15,10 +15,6 @@ env:
     init: /sbin/init
     run_opts: ""
 
-before_install:
-  # Pull container.
-  - 'docker pull geerlingguy/docker-${distro}-ansible:latest'
-
 install:
   - 'pip install --upgrade docker-py'
 
