@@ -18,6 +18,8 @@ env:
 before_install:
   # Pull container.
   - 'docker pull geerlingguy/docker-${distro}-ansible:latest'
+
+install:
   - 'pip install --upgrade docker-py'
 
 script:
