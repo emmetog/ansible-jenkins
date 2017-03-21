@@ -18,6 +18,7 @@ env:
 before_install:
   # Pull container.
   - 'docker pull geerlingguy/docker-${distro}-ansible:latest'
+  - 'pip install --upgrade docker-py'
 
 script:
   - container_id=$(mktemp)
