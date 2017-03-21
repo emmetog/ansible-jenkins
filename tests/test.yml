@@ -5,6 +5,7 @@
     jenkins_install_via: "docker"
     jenkins_config_owner: "root"
     jenkins_config_group: "root"
+    jenkins_home: "~/jenkins_home"
 
   roles:
     - "ansible-jenkins"
