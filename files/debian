@@ -1,0 +1,23 @@
+Package: *
+Pin: release o=Debian,n=experimental
+Pin-Priority: -1
+
+Package: *
+Pin: release o=Debian,n=sid
+Pin-Priority: -1
+
+Package: openjdk-7-jdk
+Pin: release o=Debian,n=experimental
+Pin-Priority: 500
+
+Package: openjdk-7-jre
+Pin: release o=Debian,n=experimental
+Pin-Priority: 500
+
+Package: openjdk-7-jre-headless
+Pin: release o=Debian,n=experimental
+Pin-Priority: 500
+
+Package: libjpeg62-turbo
+Pin: release o=Debian,n=sid
+Pin-Priority: 500
