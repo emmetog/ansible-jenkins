@@ -39,6 +39,10 @@
     name: openjdk-7-jdk
     update_cache: yes
 
+- name: Update java alternatives
+  shell: /usr/sbin/update-java-alternatives -s java-1.7.0-openjdk-amd64
+  ignore_errors: yes
+
 - name: Add Jenkins key
   apt_key:
     url: "https://pkg.jenkins.io/debian-stable/jenkins.io.key"
@@ -54,7 +58,14 @@
     name: jenkins
     update_cache: yes
 
+- name: Set JENKINS_HOME
+  lineinfile:
+    path: /etc/default/jenkins
+    line: "JENKINS_HOME={{ jenkins_home }}"
+    regexp: '^JENKINS_HOME='
+
 - name: Jenkins is running
   systemd:
     name: jenkins
-    state: started
+    enabled: yes
+    state: restarted
