@@ -4,3 +4,5 @@
   systemd:
     name: jenkins
     state: restarted
+
+- pause: seconds=15

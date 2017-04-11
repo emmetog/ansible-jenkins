@@ -60,12 +60,19 @@
 
 - name: Set JENKINS_HOME
   lineinfile:
-    path: /etc/default/jenkins
+    dest: /etc/default/jenkins
     line: "JENKINS_HOME={{ jenkins_home }}"
     regexp: '^JENKINS_HOME='
+
+- name: Turn off Jenkins setup wizard
+  lineinfile:
+    dest: /etc/default/jenkins
+    regexp: '^JAVA_ARGS='
+    line: 'JAVA_ARGS="-Djava.awt.headless=true -Djenkins.install.runSetupWizard=false"'
 
 - name: Jenkins is running
   systemd:
     name: jenkins
-    enabled: yes
     state: restarted
+
+- pause: seconds=15
