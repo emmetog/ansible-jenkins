@@ -64,11 +64,11 @@
     line: "JENKINS_HOME={{ jenkins_home }}"
     regexp: '^JENKINS_HOME='
 
-- name: Turn off Jenkins setup wizard
+- name: Set Jenkins command line options
   lineinfile:
     dest: /etc/default/jenkins
     regexp: '^JAVA_ARGS='
-    line: 'JAVA_ARGS="-Djava.awt.headless=true -Djenkins.install.runSetupWizard=false"'
+    line: "JAVA_ARGS=\"{{ jenkins_java_opts }}\""
 
 - name: Jenkins is running
   systemd:
