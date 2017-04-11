@@ -22,7 +22,7 @@ Requires curl to be installed on the server.
 If deploying using Docker then you need Docker 
 installed on the server.
 
-(Docker is the only supported way at the moment 
+(Docker and apt-get are the only supported ways at the moment 
 although more ways can easily be added, PRs welcome).
 
 Installation
@@ -45,6 +45,12 @@ jenkins_home: /data/jenkins # The directory on the server where the Jenkins conf
 
 # If you need to override any java options then do that here.
 jenkins_java_opts: "-Djenkins.install.runSetupWizard=false"
+
+# Install Jenkins by means of a Docker container
+jenkins_install_via: "docker"
+
+# Install Jenkins directly on Ubuntu/Debian Linux systems
+jenkins_install_via: "apt"
 
 # Configuration files owner and group
 jenkins_config_owner: "ubuntu"
