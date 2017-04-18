@@ -1,7 +1,7 @@
 ---
 
 - name: Jenkins is running
-  systemd:
+  service:
     name: jenkins
     state: restarted
 

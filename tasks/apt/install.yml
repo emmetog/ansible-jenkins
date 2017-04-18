@@ -28,7 +28,7 @@
 
 - name: Create pinning file for apt
   copy:
-    src: debian
+    src: files/apt/debian-package-pins
     dest: /etc/apt/preferences.d/debian
     owner: root
     group: root
@@ -71,7 +71,7 @@
     line: "JAVA_ARGS=\"{{ jenkins_java_opts }}\""
 
 - name: Jenkins is running
-  systemd:
+  service:
     name: jenkins
     state: restarted
 
