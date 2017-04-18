@@ -1,0 +1,78 @@
+---
+
+- name: Ensure jenkins home dir is created
+  file:
+    path: "{{ jenkins_home }}"
+    mode: 0777
+    owner: "{{ jenkins_config_owner }}"
+    group: "{{ jenkins_config_group }}"
+    state: directory
+
+- name: Install apt PPA dependencies
+  apt:
+    name: python-software-properties
+
+- name: Install the Debian keyring
+  apt:
+    name: debian-archive-keyring
+
+- name: Add Debian experimental repository for OpenJDK
+  apt_repository:
+    repo: deb http://httpredir.debian.org/debian experimental main
+    state: present
+
+- name: Add Debian sid repository for OpenJDK
+  apt_repository:
+    repo: deb http://httpredir.debian.org/debian sid main
+    state: present
+
+- name: Create pinning file for apt
+  copy:
+    src: files/apt/debian-package-pins
+    dest: /etc/apt/preferences.d/debian
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Install OpenJDK 7
+  apt:
+    name: openjdk-7-jdk
+    update_cache: yes
+
+- name: Update java alternatives
+  shell: /usr/sbin/update-java-alternatives -s java-1.7.0-openjdk-amd64
+  ignore_errors: yes
+
+- name: Add Jenkins key
+  apt_key:
+    url: "https://pkg.jenkins.io/debian-stable/jenkins.io.key"
+    state: present
+
+- name: Add Jenkins repository
+  apt_repository:
+    repo: 'deb https://pkg.jenkins.io/debian-stable binary/'
+    state: present
+
+- name: Install Jenkins binary package
+  apt:
+    name: jenkins
+    update_cache: yes
+
+- name: Set JENKINS_HOME
+  lineinfile:
+    dest: /etc/default/jenkins
+    line: "JENKINS_HOME={{ jenkins_home }}"
+    regexp: '^JENKINS_HOME='
+
+- name: Set Jenkins command line options
+  lineinfile:
+    dest: /etc/default/jenkins
+    regexp: '^JAVA_ARGS='
+    line: "JAVA_ARGS=\"{{ jenkins_java_opts }}\""
+
+- name: Jenkins is running
+  service:
+    name: jenkins
+    state: restarted
+
+- pause: seconds=15
