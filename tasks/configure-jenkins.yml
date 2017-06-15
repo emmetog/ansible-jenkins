@@ -36,3 +36,8 @@
     group: "{{ jenkins_config_group }}"
   when: jenkins_include_secrets
 
+- name: set permissions on secrets dir
+  file:
+    path: "{{ jenkins_home }}/secrets"
+    mode: 0700
+  when: jenkins_include_secrets
