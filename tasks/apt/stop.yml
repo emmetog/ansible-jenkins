@@ -1,0 +1,8 @@
+---
+
+- name: Jenkins is stopped
+  service:
+    name: jenkins
+    state: stopped
+
+- pause: seconds=5

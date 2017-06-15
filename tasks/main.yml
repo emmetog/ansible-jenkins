@@ -2,6 +2,9 @@
 
 - include: "{{ jenkins_install_via }}/install.yml"
 
+# Jenkins should not be running while we change the configuration
+# data, otherwise some files might be overwritten when it restarts
+- include: "{{ jenkins_install_via }}/stop.yml"
 - include: "configure-jenkins.yml"
 
 - include: "{{ jenkins_install_via }}/restart.yml"
