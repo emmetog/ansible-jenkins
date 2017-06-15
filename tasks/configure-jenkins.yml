@@ -8,6 +8,16 @@
     owner: "{{ jenkins_config_owner }}"
     group: "{{ jenkins_config_group }}"
 
+- name: Create intermediate dirs for custom files
+  file:
+    path: "{{ jenkins_home }}/{{ item.dest | dirname }}"
+    owner: "{{ jenkins_config_owner }}"
+    group: "{{ jenkins_config_group }}"
+    mode: 0755
+    state: directory
+  when: jenkins_include_custom_files
+  with_items: "{{ jenkins_custom_files }}"
+
 - name: Configure custom files
   template:
     src: "{{ jenkins_source_dir_configs }}/{{ item.src }}"
