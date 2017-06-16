@@ -1,5 +1,16 @@
 ---
 
+- name: Create Jenkins group
+  group:
+    name: "{{ jenkins_config_group }}"
+    state: present
+
+- name: Create Jenkins user
+  user:
+    name: "{{ jenkins_config_owner }}"
+    group: "{{ jenkins_config_group }}"
+    state: present
+
 - name: Ensure jenkins home dir is created
   file:
     path: "{{ jenkins_home }}"
