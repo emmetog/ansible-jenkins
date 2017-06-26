@@ -1,5 +1,8 @@
 ---
 
+- name: Include Debian-specific variables
+  include_vars: "debian.yml"
+
 - name: Create Jenkins group
   group:
     name: "{{ jenkins_config_group }}"
@@ -39,13 +42,12 @@
     group: root
     mode: 0644
 
-- name: Install OpenJDK 7
-  apt:
-    name: openjdk-7-jdk
-    update_cache: yes
+- name: Install apt packages
+  action: apt name={{ item }} state=present
+  with_items: "{{ jenkins_apt_packages }}"
 
-- name: Update java alternatives
-  shell: /usr/sbin/update-java-alternatives -s java-1.7.0-openjdk-amd64
+- name: Set default Java version
+  shell: /usr/sbin/update-java-alternatives -s "{{ jenkins_java_version }}"
   ignore_errors: yes
 
 - name: Add Jenkins key
