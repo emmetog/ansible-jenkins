@@ -10,6 +10,7 @@
     name: "{{ jenkins_config_owner }}"
     group: "{{ jenkins_config_group }}"
     home: "{{ jenkins_home }}"
+    shell: "/bin/false"
     state: present
 
 - name: Install apt PPA dependencies
