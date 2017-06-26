@@ -9,15 +9,8 @@
   user:
     name: "{{ jenkins_config_owner }}"
     group: "{{ jenkins_config_group }}"
+    home: "{{ jenkins_home }}"
     state: present
-
-- name: Ensure jenkins home dir is created
-  file:
-    path: "{{ jenkins_home }}"
-    mode: 0777
-    owner: "{{ jenkins_config_owner }}"
-    group: "{{ jenkins_config_group }}"
-    state: directory
 
 - name: Install apt PPA dependencies
   apt:
