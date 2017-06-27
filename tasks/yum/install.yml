@@ -1,5 +1,6 @@
 - name: "Make sure Jenkins is stopped"
   service: name="jenkins" state="stopped"
+  ignore_errors: yes
 - name: "Create Jenkins group"
   group:
     name: "{{ jenkins_config_group }}"
