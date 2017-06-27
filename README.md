@@ -96,6 +96,19 @@ jenkins_docker_container_name: jenkins
 jenkins_docker_expose_port: true
 ```
 
+Debian-Specific Role Variables
+------------------------------
+
+```yml
+# Packages which are to be installed on the jenkins instance
+jenkins_apt_packages:
+  - openjdk-8-jdk
+
+# Java version to use. Note that JDK 8 is required for Jenkins
+# 2.54 or greater.
+jenkins_java_version: "java-1.8.0-openjdk-amd64"
+```
+
 Example Playbook
 ----------------
 
