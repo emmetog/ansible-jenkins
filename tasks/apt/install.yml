@@ -62,7 +62,8 @@
 
 - name: Install Jenkins binary package
   apt:
-    name: jenkins
+    name: "jenkins={{ jenkins_version }}"
+    force: yes
     update_cache: yes
 
 - name: Set JENKINS_HOME
