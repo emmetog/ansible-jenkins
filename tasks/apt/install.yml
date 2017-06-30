@@ -62,7 +62,8 @@
 
 - name: Install Jenkins binary package
   apt:
-    name: jenkins
+    name: "jenkins={{ jenkins_version }}"
+    force: yes
     update_cache: yes
 
 - name: Set JENKINS_HOME
@@ -70,6 +71,12 @@
     dest: /etc/default/jenkins
     line: "JENKINS_HOME={{ jenkins_home }}"
     regexp: '^JENKINS_HOME='
+
+- name: Set Jenkins port
+  lineinfile:
+    dest: /etc/default/jenkins
+    regexp: '^HTTP_PORT='
+    line: "HTTP_PORT={{ jenkins_port }}"
 
 - name: Set Jenkins command line options
   lineinfile:
