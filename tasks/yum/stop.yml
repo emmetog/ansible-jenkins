@@ -1,0 +1,3 @@
+---
+- name: "Stop Jenkins"
+  service: name="jenkins" state="stopped"

@@ -1,0 +1,3 @@
+---
+- include: yum/stop.yml
+- include: yum/start.yml

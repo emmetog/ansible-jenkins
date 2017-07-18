@@ -1,0 +1,11 @@
+---
+- name: "Start Jenkins"
+  service: name="jenkins" state="started"
+- name: "Wait for Jenkins to come up"
+  uri:
+    url: "{{ jenkins_url }}:{{ jenkins_port }}"
+    status_code: 200
+  register: result
+  until: result.status == 200
+  retries: 60
+  delay: 1

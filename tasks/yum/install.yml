@@ -1,0 +1,42 @@
+- name: "Make sure Jenkins is stopped"
+  service: name="jenkins" state="stopped"
+  ignore_errors: yes
+
+- name: "Create Jenkins group"
+  group:
+    name: "{{ jenkins_config_group }}"
+    state: present
+
+- name: "Create Jenkins user"
+  user: name="{{ jenkins_config_owner }}" groups="{{ jenkins_config_group }}" state="present"
+
+- name: "Install Java and GIT"
+  yum: name="java" state="present"
+  with_items:
+    - java
+    - git
+
+- name: "Add Jenkins repository"
+  get_url: url="http://pkg.jenkins-ci.org/redhat/jenkins.repo" dest="/etc/yum.repos.d/jenkins.repo"
+
+- name: "Import Jenkins key"
+  command: "rpm --import https://jenkins-ci.org/redhat/jenkins-ci.org.key"
+
+- name: "Install Jenkins"
+  yum:
+    name: jenkins
+    state: present
+
+- name: Set JENKINS_HOME
+  lineinfile:
+    create: "yes"
+    dest: "/etc/default/jenkins"
+    line: "JENKINS_HOME={{ jenkins_home }}"
+    regexp: '^JENKINS_HOME='
+    state: "present"
+
+- name: "Set Jenkins command line options"
+  lineinfile:
+    dest: /etc/default/jenkins
+    regexp: '^JAVA_ARGS='
+    line: "JAVA_ARGS=\"{{ jenkins_java_opts }}\""
