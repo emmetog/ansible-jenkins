@@ -8,6 +8,14 @@
     owner: "{{ jenkins_config_owner }}"
     group: "{{ jenkins_config_group }}"
 
+- name: Configure Jenkins location
+  template:
+    src: files/jenkins.model.JenkinsLocationConfiguration.xml.j2
+    dest: "{{ jenkins_home }}/jenkins.model.JenkinsLocationConfiguration.xml"
+    mode: 0644
+    owner: "{{ jenkins_config_owner }}"
+    group: "{{ jenkins_config_group }}"
+
 - name: Create intermediate dirs for custom files
   file:
     path: "{{ jenkins_home }}/{{ item.dest | dirname }}"
