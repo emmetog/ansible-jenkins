@@ -31,9 +31,3 @@
     dest: /etc/default/jenkins
     regexp: '^JAVA_ARGS='
     line: "JAVA_ARGS=\"{{ jenkins_java_opts }}\""
-- name: "Configure the firewall to allow Jenkins port"
-  command: "firewall-cmd --zone=public --add-port={{ jenkins_port }}/tcp --permanent"
-- name: "Configure the firewall to allow http"
-  command: "firewall-cmd --zone=public --add-service=http --permanent"
-- name: "Reload the firewall"
-  command: "firewall-cmd --reload"
