@@ -52,6 +52,9 @@ jenkins_install_via: "docker"
 # Install Jenkins directly on Ubuntu/Debian Linux systems
 jenkins_install_via: "apt"
 
+# Install Jenkins directly on RedHat/CentOS Linux systems
+jenkins_install_via: "yum"
+
 # Configuration files owner and group
 jenkins_config_owner: "ubuntu"
 jenkins_config_group: "ubuntu"
