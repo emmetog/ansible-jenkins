@@ -9,7 +9,9 @@ and reliably and you can treat your Jenkins as a [Cow instead
 of a Pet](https://blog.engineyard.com/2014/pets-vs-cattle).
 
 If you are looking for a role to install Jenkins and you 
-are ok treating your Jenkins as a pet then you don't need 
+want to configure everything through the web interface and you
+don't care about being able to repeatably deploy this 
+same fully-configured Jenkins then you don't need 
 this role, have a look at the 
 [geerlingguy/ansible-role-jenkins](https://github.com/geerlingguy/ansible-role-jenkins)
 role instead.
@@ -22,7 +24,7 @@ Requires curl to be installed on the server.
 If deploying using Docker then you need Docker 
 installed on the server.
 
-(Docker and apt-get are the only supported ways at the moment 
+(Docker, apt-get and yum are the only supported ways at the moment 
 although more ways can easily be added, PRs welcome).
 
 Installation
@@ -150,7 +152,8 @@ This gives you more flexibility and better separation of concerns. See
 the documentation in those projects for more details on how to deploy
 the proxies and configure HTTPS.
 
-If using a reverse proxy in front of the jenkins instance you probably 
+If using a reverse proxy in front of the jenkins 
+instance and deploying using docker you probably 
 want to set the `jenkins_docker_expose_port` var to false so that the 
 port is not exposed on the host, only to the reverse proxy.
 
