@@ -41,7 +41,6 @@ Role Variables
 
 ```yml
 jenkins_version: "2.73.1" # The exact version of jenkins to deploy
-jenkins_docker_image: "jenkins/jenkins" # The docker hub image name
 
 jenkins_url: "http://127.0.0.1" # The url that Jenkins will be accessible on
 jenkins_port: "8080" # The port that Jenkins will listen on
@@ -96,18 +95,26 @@ jenkins_plugins:
 # List of sources of custom jenkins plugins to install
 jenkins_custom_plugins: []
 
+###################################################
+# Docker vars: apply to deploying via docker only #
+###################################################
+
+# The docker hub image name
+jenkins_docker_image: "jenkins/jenkins"
+
 # Configs specific to the "docker" method of running jenkins
 # The name of the jenkins container
 jenkins_docker_container_name: jenkins
+
 # Default, if true, the port will be exposed on the host (using "port")
 # If set to false, the port will only be exposed to other containers (using "expose")
 jenkins_docker_expose_port: true
-```
 
-Debian-Specific Role Variables
-------------------------------
 
-```yml
+#############################################
+# Apt vars: apply to deploying via apt only #
+#############################################
+
 # Packages which are to be installed on the jenkins instance
 jenkins_apt_packages:
   - openjdk-8-jdk
@@ -115,6 +122,7 @@ jenkins_apt_packages:
 # Java version to use. Note that JDK 8 is required for Jenkins
 # 2.54 or greater.
 jenkins_java_version: "java-1.8.0-openjdk-amd64"
+
 ```
 
 Example Playbook
@@ -124,7 +132,7 @@ Example Playbook
 - hosts: jenkins
 
   vars:
-    jenkins_version: "1.642.4"
+    jenkins_version: "2.73.1"
     jenkins_url: http://jenkins.example.com
     jenkins_port: 80
     jenkins_install_via: "docker"

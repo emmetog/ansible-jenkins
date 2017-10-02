@@ -1,6 +1,0 @@
----
-
-jenkins_apt_packages:
-  - openjdk-8-jdk
-
-jenkins_java_version: "java-1.8.0-openjdk-amd64"
