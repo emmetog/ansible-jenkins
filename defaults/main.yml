@@ -1,6 +1,8 @@
 ---
 
-jenkins_version: "2.32.3" # The exact version of jenkins to deploy
+jenkins_version: "2.73.1" # The exact version of jenkins to deploy
+jenkins_docker_image: "jenkins/jenkins" # The docker hub image name
+
 jenkins_url: "http://127.0.0.1" # The url that Jenkins will be accessible on
 jenkins_port: "8080" # The port that Jenkins will listen on
 jenkins_home: /data/jenkins # The directory on the server where the Jenkins configs will live
