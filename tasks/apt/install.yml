@@ -1,8 +1,4 @@
 ---
-
-- name: Include Debian-specific variables
-  include_vars: "debian.yml"
-
 - name: Create Jenkins group
   group:
     name: "{{ jenkins_config_group }}"
