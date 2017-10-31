@@ -10,5 +10,3 @@
     env:
       JAVA_OPTS: "{{ jenkins_java_opts }}"
     restart: yes
-
-- pause: seconds=15
