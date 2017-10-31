@@ -8,6 +8,7 @@
 - include: "configure-jenkins.yml"
 
 - include: "{{ jenkins_install_via }}/restart.yml"
+- include: "wait-for-start.yml"
 - include: "configure-plugins.yml"
 
 - include: "configure-jobs.yml"
