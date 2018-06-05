@@ -3,7 +3,6 @@
 - name: Wait for Jenkins to start
   uri:
     url: "{{ jenkins_url }}:{{ jenkins_port }}"
-  delegate_to: localhost
   become: false
   register: jenkins_home_content
   # Jenkins will return 503 (service unavailable) on the home page while
