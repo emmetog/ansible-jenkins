@@ -14,12 +14,7 @@
     mode: 0777
   with_items: "{{ jenkins_jobs }}"
 
-- name: get token for jenkins api
-  uri:
-    url: '{{ jenkins_url }}:{{ jenkins_port }}/crumbIssuer/api/xml?xpath=concat(//crumbRequestField,":",//crumb)'
-    return_content: yes
-    status_code: 200,404
-  register: jenkins_token
+- include_tasks: "get-crumb.yml"
 
 - name: Reload Jenkins if crumb is enabled
   uri:

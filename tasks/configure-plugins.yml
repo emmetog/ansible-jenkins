@@ -1,11 +1,5 @@
 ---
-
-- name: get token for jenkins api
-  uri:
-    url: '{{ jenkins_url }}:{{ jenkins_port }}/crumbIssuer/api/xml?xpath=concat(//crumbRequestField,":",//crumb)'
-    return_content: yes
-    status_code: 200,404
-  register: jenkins_token
+- include_tasks: "get-crumb.yml"
 
 - name: Install plugins if crumb is enabled
   uri:
