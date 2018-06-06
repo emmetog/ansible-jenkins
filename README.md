@@ -3,16 +3,16 @@ Ansible Role for Jenkins
 
 Installs and completely configures Jenkins using Ansible.
 
-This role is used when you want all your Jenkins configuration 
-in version control so you can deploy Jenkins repeatably 
-and reliably and you can treat your Jenkins as a [Cow instead 
+This role is used when you want all your Jenkins configuration
+in version control so you can deploy Jenkins repeatably
+and reliably and you can treat your Jenkins as a [Cow instead
 of a Pet](https://blog.engineyard.com/2014/pets-vs-cattle).
 
-If you are looking for a role to install Jenkins and you 
+If you are looking for a role to install Jenkins and you
 want to configure everything through the web interface and you
-don't care about being able to repeatably deploy this 
-same fully-configured Jenkins then you don't need 
-this role, have a look at the 
+don't care about being able to repeatably deploy this
+same fully-configured Jenkins then you don't need
+this role, have a look at the
 [geerlingguy/ansible-role-jenkins](https://github.com/geerlingguy/ansible-role-jenkins)
 role instead.
 
@@ -21,10 +21,10 @@ Requirements
 
 Requires curl to be installed on the server.
 
-If deploying using Docker then you need Docker 
+If deploying using Docker then you need Docker
 installed on the server.
 
-(Docker, apt-get and yum are the only supported ways at the moment 
+(Docker, apt-get and yum are the only supported ways at the moment
 although more ways can easily be added, PRs welcome).
 
 Installation
@@ -146,7 +146,7 @@ Example Playbook
         dest: "jenkins.plugins.openstack.compute.UserDataConfig.xml"
     jenkins_custom_plugins:
         - "openstack-cloud-plugin/openstack-cloud.jpi"
-      
+
   roles:
     - emmetog.jenkins
 ```
@@ -162,27 +162,27 @@ This gives you more flexibility and better separation of concerns. See
 the documentation in those projects for more details on how to deploy
 the proxies and configure HTTPS.
 
-If using a reverse proxy in front of the jenkins 
-instance and deploying using docker you probably 
-want to set the `jenkins_docker_expose_port` var to false so that the 
+If using a reverse proxy in front of the jenkins
+instance and deploying using docker you probably
+want to set the `jenkins_docker_expose_port` var to false so that the
 port is not exposed on the host, only to the reverse proxy.
 
 Jenkins Configs
 ---------------
 
-The example above will look for the job configs in 
-`{{ playbook_dir }}/jenkins-configs/jobs/my-first-job/config.xml` and 
-`{{ playbook_dir }}/jenkins-configs/jobs/another-awesome-job/config.xml`. 
+The example above will look for the job configs in
+`{{ playbook_dir }}/jenkins-configs/jobs/my-first-job/config.xml` and
+`{{ playbook_dir }}/jenkins-configs/jobs/another-awesome-job/config.xml`.
 
 ***NOTE***: These directories are customizable, see the `jenkins_source_dir_configs` and `jenkins_source_dir_jobs` role variables.
 
 The role will also look for `{{ playbook_dir }}/jenkins-configs/config.xml`
 These config.xml will be templated over to the server to be used as the job configuration.
-It will upload the whole secrets directory under `{{ playbook_dir }}/jenkins-configs/secrets` and configure custom files provided under `{{ jenkins_custom_files }}` variable. Note that `{{ jenkins_include_secrets }}` and `{{ jenkins_include_custom_files }}` varibales should be set to true for these to work.
-Additionaly the role can install custom plugins by providing the .jpi or .hpi files as a list under `{{ jenkins_custom_plugins }}` variable.
+It will upload the whole secrets directory under `{{ playbook_dir }}/jenkins-configs/secrets` and configure custom files provided under `{{ jenkins_custom_files }}` variable. Note that `{{ jenkins_include_secrets }}` and `{{ jenkins_include_custom_files }}` variables should be set to true for these to work.
+Additionally the role can install custom plugins by providing the .jpi or .hpi files as a list under `{{ jenkins_custom_plugins }}` variable.
 
 config.xml and custom files are templated so you can put variables in them,
-for example it would be a good idea to encrypt sensitive variables 
+for example it would be a good idea to encrypt sensitive variables
 in ansible vault.
 
 Example Job Configs
@@ -217,7 +217,7 @@ Here's an example of what you could put in `{{ playbook_dir }}/jenkins-configs/j
 Example Jenkins Configs
 -----------------------
 
-In `{{ jenkins_source_dir_configs }}/config.xml` you put your global 
+In `{{ jenkins_source_dir_configs }}/config.xml` you put your global
 Jenkins configuration, for example:
 ```xml
 <?xml version='1.0' encoding='UTF-8'?>
@@ -308,9 +308,9 @@ Jenkins configuration, for example:
 Making Changes
 --------------
 
-When you want to make a big change in a configuration file 
-or you want to add a new job the normal workflow is to make 
-the change in the Jenkins UI 
+When you want to make a big change in a configuration file
+or you want to add a new job the normal workflow is to make
+the change in the Jenkins UI
 first, then copy the resulting XML back into your VCS.
 
 License
@@ -323,8 +323,8 @@ Author Information
 
 Made with love by Emmet O'Grady.
 
-I am the founder of [NimbleCI](https://nimbleci.com) which 
+I am the founder of [NimbleCI](https://nimbleci.com) which
 builds Docker containers for feature branch workflow projects in Github.
 
-I blog on my [personal blog](http://blog.emmetogrady.com) and 
+I blog on my [personal blog](http://blog.emmetogrady.com) and
 about Docker related things on the [NimbleCI blog](https://blog.nimbleci.com).
