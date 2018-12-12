@@ -5,6 +5,9 @@
     return_content: yes
     status_code: 200,404
   register: jenkins_token_result
+  until: jenkins_token_result.status == 200 or jenkins_token_result.status == 404
+  retries: 5
+  delay: 1
 
 - set_fact:
     jenkins_token: "{{ jenkins_token_result }}"
