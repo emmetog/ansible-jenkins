@@ -1,6 +1,0 @@
----
-
-- name: Jenkins is running
-  service:
-    name: jenkins
-    state: restarted
