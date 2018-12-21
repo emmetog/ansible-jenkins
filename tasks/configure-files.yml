@@ -1,0 +1,20 @@
+---
+- include_tasks: "{{ jenkins_install_via }}/stop.yml"
+
+- name: Create intermediate dirs for custom files
+  file:
+    path: "{{ jenkins_home }}/{{ item.dest | dirname }}"
+    owner: "{{ jenkins_config_owner }}"
+    group: "{{ jenkins_config_group }}"
+    mode: 0755
+    state: directory
+  with_items: "{{ jenkins_custom_files }}"
+
+- name: Configure custom files
+  template:
+    src: "{{ jenkins_source_dir_configs }}/{{ item.src }}"
+    dest: "{{ jenkins_home }}/{{ item.dest }}"
+    mode: 0644
+    owner: "{{ jenkins_config_owner }}"
+    group: "{{ jenkins_config_group }}"
+  with_items: "{{ jenkins_custom_files }}"
