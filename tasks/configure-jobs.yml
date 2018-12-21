@@ -1,4 +1,7 @@
 ---
+# First, make sure that Jenkins is stopped before attempting to copy any job
+# configuration files.
+- include_tasks: "{{ jenkins_install_via }}/stop.yml"
 
 - name: Job directories are present
   file:

@@ -1,4 +1,10 @@
 ---
+
+# Jenkins must be running in order to install plugins from the internet, but
+# we should put it into quiet mode immediately to avoid any jobs being
+# scheduled.
+- include_tasks: "start.yml"
+- include_tasks: "set-quiet-mode.yml"
 - include_tasks: "get-crumb.yml"
 
 - name: Install plugins if crumb is enabled

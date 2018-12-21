@@ -1,4 +1,7 @@
 ---
+# Jenkins should not be running while we write configuration files, otherwise
+# otherwise some data might be overwritten when it restarts.
+- include_tasks: "{{ jenkins_install_via }}/stop.yml"
 
 - name: Configuration file is up to date (config.xml)
   template:
