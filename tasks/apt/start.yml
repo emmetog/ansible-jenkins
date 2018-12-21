@@ -1,0 +1,5 @@
+---
+- name: Jenkins is started
+  service:
+    name: jenkins
+    state: started
