@@ -7,5 +7,5 @@
 - include: "configure-files.yml"
   when: jenkins_include_custom_files
 - include: "configure-jobs.yml"
-- include: "cancel-quiet-mode.yml"
 - include: "{{ jenkins_after_config_jobs_file | default('empty.yml') }}"
+- include: "cancel-quiet-mode.yml"
