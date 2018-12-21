@@ -79,10 +79,3 @@
     dest: /etc/default/jenkins
     regexp: '^JAVA_ARGS='
     line: "JAVA_ARGS=\"{{ jenkins_java_opts }}\""
-
-- name: Jenkins is running
-  service:
-    name: jenkins
-    state: restarted
-
-- pause: seconds=15
