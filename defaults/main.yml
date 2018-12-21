@@ -18,6 +18,10 @@ jenkins_config_group: "ubuntu"
 jenkins_source_dir_configs: "{{ playbook_dir }}/jenkins-configs"
 jenkins_source_dir_jobs: "{{ jenkins_source_dir_configs }}/jobs"
 
+# When defined, include this task file after configuring jobs. This happens
+# at the very end of the role, but before Jenkins is taken out of quiet mode.
+jenkins_after_config_jobs_file: false
+
 # config.xml template source
 jenkins_source_config_xml: "{{ jenkins_source_dir_configs }}/config.xml"
 
