@@ -11,4 +11,5 @@
       JAVA_OPTS: "{{ jenkins_java_opts }}"
     state: stopped
 
-- pause: seconds=5
+- wait_for:
+    timeout: 5

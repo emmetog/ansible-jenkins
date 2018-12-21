@@ -5,4 +5,5 @@
     name: jenkins
     state: stopped
 
-- pause: seconds=5
+- wait_for:
+    timeout: 5
