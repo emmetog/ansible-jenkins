@@ -41,6 +41,7 @@
   with_items: "{{ jenkins_custom_plugins }}"
   when: jenkins_custom_plugins is defined
 
-- wait_for:
+- name: Wait for plugins to finish installing
+  wait_for:
     path: "{{ jenkins_home }}/plugins/{{ item }}.jpi"
   with_items: "{{ jenkins_plugins }}"
