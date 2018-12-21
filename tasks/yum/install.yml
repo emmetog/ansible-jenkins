@@ -1,3 +1,4 @@
+---
 - name: "Make sure Jenkins is stopped"
   service: name="jenkins" state="stopped"
   ignore_errors: yes
