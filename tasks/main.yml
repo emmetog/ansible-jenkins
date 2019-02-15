@@ -1,13 +1,18 @@
 ---
-
 - include: "{{ jenkins_install_via }}/install.yml"
+
 - include: "configure-jenkins.yml"
+
 - include: "configure-plugins.yml"
 
 - include: "configure-files.yml"
   when: jenkins_include_custom_files
+
 - include: "configure-jobs.yml"
+
 - include: "{{ jenkins_after_config_jobs_file }}"
   when: jenkins_after_config_jobs_file
+
 - include: "start.yml"
+
 - include: "cancel-quiet-mode.yml"
