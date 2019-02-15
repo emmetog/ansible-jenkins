@@ -1,5 +1,4 @@
 ---
-
 - name: Jenkins is stopped
   service:
     name: jenkins
