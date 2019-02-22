@@ -1,4 +1,7 @@
 ---
+# First, make sure that Jenkins is stopped before attempting to copy any job
+# configuration files.
+- include_tasks: "{{ jenkins_install_via }}/stop.yml"
 
 - name: Job directories are present
   file:
@@ -13,23 +16,3 @@
     dest: "{{ jenkins_home }}/jobs/{{ item }}/config.xml"
     mode: 0777
   with_items: "{{ jenkins_jobs }}"
-
-- include_tasks: "get-crumb.yml"
-
-- name: Reload Jenkins if crumb is enabled
-  uri:
-    url: "{{ jenkins_url }}:{{ jenkins_port }}/reload"
-    method: POST
-    status_code: 200,302
-    headers:
-      Jenkins-Crumb: "{{ jenkins_token.content.split(':')[1] }}"
-  ignore_errors: yes
-  when: jenkins_token.status == 200
-
-- name: Reload Jenkins if crumb is disabled
-  uri:
-    url: "{{ jenkins_url }}:{{ jenkins_port }}/reload"
-    method: POST
-    status_code: 200,302
-  ignore_errors: yes
-  when: jenkins_token.status == 404
