@@ -3,6 +3,14 @@
 # otherwise some data might be overwritten when it restarts.
 - include_tasks: "{{ jenkins_install_via }}/stop.yml"
 
+- name: Ensure correct ownership of JENKINS_HOME directory
+  file:
+    path: "{{ jenkins_home }}"
+    owner: "{{ jenkins_config_owner }}"
+    group: "{{ jenkins_config_group }}"
+    mode: 0755
+    state: directory
+
 - name: Configuration file is up to date (config.xml)
   template:
     src: "{{ jenkins_source_config_xml }}"
