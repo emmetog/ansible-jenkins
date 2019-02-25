@@ -1,3 +1,4 @@
+---
 - name: "Make sure Jenkins is stopped"
   service: name="jenkins" state="stopped"
   ignore_errors: yes
@@ -8,7 +9,10 @@
     state: present
 
 - name: "Create Jenkins user"
-  user: name="{{ jenkins_config_owner }}" groups="{{ jenkins_config_group }}" state="present"
+  user:
+    name: "{{ jenkins_config_owner }}"
+    groups: "{{ jenkins_config_group }}"
+    state: present
 
 - name: "Install Java and GIT"
   yum: name="java" state="present"
@@ -17,7 +21,9 @@
     - git
 
 - name: "Add Jenkins repository"
-  get_url: url="http://pkg.jenkins-ci.org/redhat/jenkins.repo" dest="/etc/yum.repos.d/jenkins.repo"
+  get_url:
+    url: "http://pkg.jenkins-ci.org/redhat/jenkins.repo"
+    dest: "/etc/yum.repos.d/jenkins.repo"
 
 - name: "Import Jenkins key"
   command: "rpm --import https://jenkins-ci.org/redhat/jenkins-ci.org.key"

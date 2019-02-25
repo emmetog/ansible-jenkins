@@ -1,5 +1,4 @@
 ---
-
 jenkins_version: "2.73.1" # The exact version of jenkins to deploy
 
 jenkins_url: "http://127.0.0.1" # The url that Jenkins will be accessible on

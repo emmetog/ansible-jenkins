@@ -1,5 +1,4 @@
 ---
-
 - name: Ensure jenkins home dir is created
   file:
     path: "{{ jenkins_home }}"

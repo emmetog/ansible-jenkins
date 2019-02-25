@@ -1,5 +1,4 @@
 ---
-
 - name: Container is stopped
   docker_container:
     name: "{{ jenkins_docker_container_name }}"

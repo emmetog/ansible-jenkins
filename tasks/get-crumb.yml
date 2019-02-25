@@ -9,5 +9,6 @@
   retries: 5
   delay: 1
 
-- set_fact:
+- name: Set fact with Jenkins token
+  set_fact:
     jenkins_token: "{{ jenkins_token_result }}"

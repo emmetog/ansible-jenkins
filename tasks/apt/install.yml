@@ -39,8 +39,9 @@
     mode: 0644
 
 - name: Install apt packages
-  action: apt name={{ item }} state=present
-  with_items: "{{ jenkins_apt_packages }}"
+  apt:
+    name: "{{ jenkins_apt_packages }}"
+    state: present
 
 - name: Set default Java version
   shell: /usr/sbin/update-java-alternatives -s "{{ jenkins_java_version }}"
