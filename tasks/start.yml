@@ -8,6 +8,6 @@
   register: jenkins_home_content
   # Jenkins will return 503 (service unavailable) on the home page while
   # starting (the "Please wait while Jenkins is getting ready to work" page)
-  until: jenkins_home_content.status == 200
+  until: jenkins_home_content is success and jenkins_home_content.status == 200
   retries: 30
   delay: 5
