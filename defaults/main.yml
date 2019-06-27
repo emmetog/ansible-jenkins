@@ -46,6 +46,11 @@ jenkins_plugins:
   - template-project
   - ec2
 
+# How long to wait for installing plugins, in seconds. If you are seeing failures in the
+# "Wait for plugins to finish installing" task with an error message like "Timeout when
+# waiting for file <plugin_name.jpi>", you may want to increase this value.
+jenkins_plugin_timeout: 300
+
 # List of sources of custom jenkins plugins to install
 jenkins_custom_plugins: []
 
