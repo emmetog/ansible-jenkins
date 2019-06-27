@@ -43,4 +43,5 @@
 - name: Wait for plugins to finish installing
   wait_for:
     path: "{{ jenkins_home }}/plugins/{{ item }}.jpi"
+    timeout: "{{ jenkins_plugin_timeout }}"
   with_items: "{{ jenkins_plugins }}"
