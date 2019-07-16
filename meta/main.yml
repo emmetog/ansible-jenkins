@@ -12,25 +12,27 @@ galaxy_info:
   # the ones that apply to your role. If you don't see your
   # platform on this list, let us know and we'll get it added!
   platforms:
-  - name: Ubuntu
-    versions:
-    - all
-  - name: Debian
-    versions:
-    - all
-  #  - etch
-  - name: EL
-    versions:
-    - all
+    - name: Ubuntu
+      versions:
+        - all
+    - name: Debian
+      versions:
+        - all
+    - name: EL
+      versions:
+        - all
+
   # Below are all categories currently available. Just as with
   # the platforms above, uncomment those that apply to your role.
   galaxy_tags:
-  - packaging
-  - docker
-  - jenkins
-  - ci
-  - deploy
-dependencies: []
+    - development
+    - packaging
+    - docker
+    - jenkins
+    - ci
+    - deploy
+
+  dependencies: []
   # List your role dependencies here, one per line.
   # Be sure to remove the '[]' above if you add dependencies
   # to this list.
