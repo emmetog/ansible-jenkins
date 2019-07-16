@@ -1,7 +1,8 @@
 ---
 - name: Get token for Jenkins API
   uri:
-    url: '{{ jenkins_url }}:{{ jenkins_port }}/crumbIssuer/api/xml?xpath=concat(//crumbRequestField,":",//crumb)'
+    url: '{{ jenkins_url }}:{{ jenkins_port }}
+      /crumbIssuer/api/xml?xpath=concat(//crumbRequestField,":",//crumb)'
     return_content: true
     status_code: 200,404
   register: jenkins_token_result
