@@ -1,6 +1,8 @@
 ---
 - name: "Make sure Jenkins is stopped"
-  service: name="jenkins" state="stopped"
+  service:
+    name: "jenkins"
+    state: "stopped"
   ignore_errors: true
   changed_when: false
 
@@ -16,7 +18,9 @@
     state: present
 
 - name: "Install Java and GIT"
-  yum: name="java" state="present"
+  yum:
+    name: "java"
+    state: "present"
   with_items:
     - java
     - git
