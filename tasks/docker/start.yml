@@ -4,9 +4,9 @@
     name: "{{ jenkins_docker_container_name }}"
     image: "{{ jenkins_docker_image }}:{{ jenkins_version }}"
     published_ports:
-    - "{{ jenkins_port }}:8080"
+      - "{{ jenkins_port }}:8080"
     volumes:
-    - "{{ jenkins_home }}:/var/jenkins_home"
+      - "{{ jenkins_home }}:/var/jenkins_home"
     env:
       JAVA_OPTS: "{{ jenkins_java_opts }}"
   register: container_result
@@ -18,7 +18,7 @@
     image: "{{ jenkins_docker_image }}:{{ jenkins_version }}"
     expose: "8080"
     volumes:
-    - "{{ jenkins_home }}:/var/jenkins_home"
+      - "{{ jenkins_home }}:/var/jenkins_home"
     env:
       JAVA_OPTS: "{{ jenkins_java_opts }}"
   register: container_result
