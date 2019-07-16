@@ -81,4 +81,3 @@ jenkins_apt_packages:
 # Java version to use. Note that JDK 8 is required for Jenkins
 # 2.54 or greater.
 jenkins_java_version: "java-1.8.0-openjdk-amd64"
-
