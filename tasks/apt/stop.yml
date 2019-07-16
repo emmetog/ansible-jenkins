@@ -4,5 +4,6 @@
     name: jenkins
     state: stopped
 
-- wait_for:
+- name: Wait for Jenkins to stop
+  wait_for:
     timeout: 5
