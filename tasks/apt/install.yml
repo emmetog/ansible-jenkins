@@ -45,7 +45,7 @@
 
 - name: Set default Java version
   shell: /usr/sbin/update-java-alternatives -s "{{ jenkins_java_version }}"
-  ignore_errors: yes
+  ignore_errors: true
 
 - name: Add Jenkins key
   apt_key:
@@ -60,8 +60,8 @@
 - name: Install Jenkins binary package
   apt:
     name: "jenkins={{ jenkins_version }}"
-    force: yes
-    update_cache: yes
+    force: true
+    update_cache: true
 
 - name: Set JENKINS_HOME
   lineinfile:

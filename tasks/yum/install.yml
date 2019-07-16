@@ -1,7 +1,7 @@
 ---
 - name: "Make sure Jenkins is stopped"
   service: name="jenkins" state="stopped"
-  ignore_errors: yes
+  ignore_errors: true
 
 - name: "Create Jenkins group"
   group:
