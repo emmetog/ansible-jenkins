@@ -3,3 +3,4 @@
   service:
     name: jenkins
     state: started
+  changed_when: false

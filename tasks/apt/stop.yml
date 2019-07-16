@@ -3,6 +3,7 @@
   service:
     name: jenkins
     state: stopped
+  changed_when: false
 
 - name: Wait for Jenkins to stop
   wait_for:

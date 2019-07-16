@@ -32,7 +32,7 @@
   register: container_result
   when: not jenkins_docker_expose_port
 
-- name: Pause container
+- name: Pause container  # noqa 503
   pause:
     seconds: 45
   when: container_result|changed

@@ -44,8 +44,9 @@
     state: present
 
 - name: Set default Java version
-  shell: /usr/sbin/update-java-alternatives -s "{{ jenkins_java_version }}"
+  shell: /usr/sbin/update-java-alternatives -s "{{ jenkins_java_version }}"  # noqa 305
   ignore_errors: true
+  changed_when: false
 
 - name: Add Jenkins key
   apt_key:
