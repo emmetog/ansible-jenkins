@@ -9,6 +9,7 @@
 - name: Install plugins
   jenkins_plugin:
     name: "{{ item }}"
+    jenkins_home: "{{ jenkins_home }}"
     owner: "{{ jenkins_config_owner }}"
     group: "{{ jenkins_config_group }}"
     url: "{{ jenkins_url }}:{{ jenkins_port }}"
