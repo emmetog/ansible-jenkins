@@ -10,5 +10,6 @@
       JAVA_OPTS: "{{ jenkins_java_opts }}"
     state: stopped
 
-- wait_for:
+- name: Wait for container to stop
+  wait_for:
     timeout: 5

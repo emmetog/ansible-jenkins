@@ -1,10 +1,10 @@
 ---
-jenkins_version: "2.73.1" # The exact version of jenkins to deploy
+jenkins_version: "2.73.1"  # The exact version of jenkins to deploy
 
-jenkins_url: "http://127.0.0.1" # The url that Jenkins will be accessible on
-jenkins_port: "8080" # The port that Jenkins will listen on
-jenkins_home: /data/jenkins # The directory on the server where the Jenkins configs will live
-jenkins_admin: "admin@example.com" # The admininstrator email address for the Jenkins server
+jenkins_url: "http://127.0.0.1"  # The url that Jenkins will be accessible on
+jenkins_port: "8080"  # The port that Jenkins will listen on
+jenkins_home: /data/jenkins  # The directory on the server where the Jenkins configs live
+jenkins_admin: "admin@example.com"  # The administrator email address for the server
 
 # If you need to override any java options then do that here.
 jenkins_java_opts: "-Djenkins.install.runSetupWizard=false"
@@ -26,7 +26,7 @@ jenkins_source_config_xml: "{{ jenkins_source_dir_configs }}/config.xml"
 
 # Include custom files for jenkins installation
 jenkins_include_custom_files: false
-jenkins_custom_files: {} # src and dest names
+jenkins_custom_files: {}  # src and dest names
 
 # Include secrets directory during installation
 jenkins_include_secrets: false
@@ -81,4 +81,3 @@ jenkins_apt_packages:
 # Java version to use. Note that JDK 8 is required for Jenkins
 # 2.54 or greater.
 jenkins_java_version: "java-1.8.0-openjdk-amd64"
-

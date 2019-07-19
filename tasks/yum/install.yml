@@ -1,7 +1,10 @@
 ---
 - name: "Make sure Jenkins is stopped"
-  service: name="jenkins" state="stopped"
-  ignore_errors: yes
+  service:
+    name: "jenkins"
+    state: "stopped"
+  ignore_errors: true
+  changed_when: false
 
 - name: "Create Jenkins group"
   group:
@@ -15,7 +18,9 @@
     state: present
 
 - name: "Install Java and GIT"
-  yum: name="java" state="present"
+  yum:
+    name: "java"
+    state: "present"
   with_items:
     - java
     - git
@@ -26,7 +31,8 @@
     dest: "/etc/yum.repos.d/jenkins.repo"
 
 - name: "Import Jenkins key"
-  command: "rpm --import https://jenkins-ci.org/redhat/jenkins-ci.org.key"
+  command: "rpm --import https://jenkins-ci.org/redhat/jenkins-ci.org.key"  # noqa 303
+  changed_when: false
 
 - name: "Install Jenkins"
   yum:
