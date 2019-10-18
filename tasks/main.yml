@@ -1,6 +1,17 @@
 ---
 - include: "sanity-checks.yml"
 
+# Previous versions of this role defined jenkins_url as a default variable, but this URL
+# did not include the port, and required the user to hard-code the protocol.
+- name: Set jenkins_url fact for backwards-compatibility installations
+  set_fact:
+    jenkins_url: "{{ jenkins_url }}:{{ jenkins_port }}"
+  when: jenkins_url is defined
+
+- name: Set jenkins_url fact for HTTP
+  set_fact:
+    jenkins_url: "http://{{ jenkins_hostname }}:{{ jenkins_port }}"
+
 - include: "{{ jenkins_install_via }}/install.yml"
 
 - include: "configure-config.yml"

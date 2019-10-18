@@ -1,4 +1,9 @@
 ---
+- name: Warn if jenkins_url is defined
+  debug:
+    msg: "Please define jenkins_hostname instead of jenkins_url"
+  when: jenkins_url is defined
+
 - name: Sanity check Jenkins authentication mechanism variable
   fail:
     msg: "Invalid value for jenkins_auth variable"

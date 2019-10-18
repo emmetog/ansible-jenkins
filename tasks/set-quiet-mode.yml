@@ -4,7 +4,7 @@
 
 - name: Set quiet mode with API token
   uri:
-    url: "{{ jenkins_url }}:{{ jenkins_port }}/quietDown"
+    url: "{{ jenkins_url }}/quietDown"
     method: POST
     headers:
       Content-Type: "text/xml"
@@ -16,7 +16,7 @@
 
 - name: Set quiet mode with crumb
   uri:
-    url: "{{ jenkins_url }}:{{ jenkins_port }}/quietDown"
+    url: "{{ jenkins_url }}/quietDown"
     method: POST
     headers:
       Content-Type: "text/xml"
@@ -27,7 +27,7 @@
 
 - name: Set quiet mode with no security
   uri:
-    url: "{{ jenkins_url }}:{{ jenkins_port }}/quietDown"
+    url: "{{ jenkins_url }}/quietDown"
     method: POST
     headers:
       Content-Type: "text/xml"

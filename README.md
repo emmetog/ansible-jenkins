@@ -133,7 +133,7 @@ Example Playbook
 
   vars:
     jenkins_version: "2.73.1"
-    jenkins_url: http://jenkins.example.com
+    jenkins_hostname: "jenkins.example.com"
     jenkins_port: 80
     jenkins_install_via: "docker"
     jenkins_jobs:

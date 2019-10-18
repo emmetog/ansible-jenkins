@@ -1,7 +1,7 @@
 ---
 - name: Get crumb for Jenkins API
   uri:
-    url: '{{ jenkins_url }}:{{ jenkins_port }}
+    url: '{{ jenkins_url }}
       /crumbIssuer/api/xml?xpath=concat(//crumbRequestField,":",//crumb)'
     return_content: true
     status_code: 200,404
