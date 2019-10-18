@@ -3,6 +3,9 @@
 
 - include: "{{ jenkins_install_via }}/install.yml"
 
+- include: "configure-config.yml"
+  when: jenkins_install_via != "docker"
+
 - include: "configure-jenkins.yml"
 
 - include: "configure-files.yml"

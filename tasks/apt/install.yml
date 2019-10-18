@@ -63,21 +63,3 @@
     name: "jenkins={{ jenkins_version }}"
     force: true
     update_cache: true
-
-- name: Set JENKINS_HOME
-  lineinfile:
-    dest: /etc/default/jenkins
-    line: "JENKINS_HOME={{ jenkins_home }}"
-    regexp: '^JENKINS_HOME='
-
-- name: Set Jenkins port
-  lineinfile:
-    dest: /etc/default/jenkins
-    regexp: '^HTTP_PORT='
-    line: "HTTP_PORT={{ jenkins_port }}"
-
-- name: Set Jenkins command line options
-  lineinfile:
-    dest: /etc/default/jenkins
-    regexp: '^JAVA_ARGS='
-    line: "JAVA_ARGS=\"{{ jenkins_java_opts }}\""

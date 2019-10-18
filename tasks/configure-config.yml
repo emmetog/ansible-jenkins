@@ -1,0 +1,26 @@
+---
+- name: Set JENKINS_HOME
+  lineinfile:
+    create: true
+    dest: "/etc/default/jenkins"
+    line: "JENKINS_HOME={{ jenkins_home }}"
+    regexp: '^JENKINS_HOME='
+    state: present
+
+- name: Set Jenkins port
+  lineinfile:
+    dest: /etc/default/jenkins
+    regexp: '^HTTP_PORT='
+    line: "HTTP_PORT={{ jenkins_port }}"
+
+- name: Set Jenkins Java command line options
+  lineinfile:
+    dest: /etc/default/jenkins
+    regexp: '^JAVA_ARGS='
+    line: "JAVA_ARGS=\"{{ jenkins_java_opts }}\""
+
+- name: Set Jenkins command line options
+  lineinfile:
+    dest: /etc/default/jenkins
+    regexp: '^JENKINS_ARGS='
+    line: "JENKINS_ARGS=\"--webroot=/var/cache/$NAME/war --httpPort={{ jenkins_port }}"
