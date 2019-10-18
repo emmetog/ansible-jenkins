@@ -154,18 +154,33 @@ Example Playbook
 HTTPS
 -----
 
-If you want to enable HTTPS on jenkins we recommend that you use a
-reverse proxy like [jwilder/nginx-proxy](https://github.com/jwilder/nginx-proxy)
-or [traefik](https://github.com/containous/traefik) and configure it
-as the HTTPS endpoint instead of configuring jenkins itself with HTTPS.
-This gives you more flexibility and better separation of concerns. See
-the documentation in those projects for more details on how to deploy
-the proxies and configure HTTPS.
+If you want to enable HTTPS on Jenkins, this can be done as follows:
 
-If using a reverse proxy in front of the jenkins
-instance and deploying using docker you probably
-want to set the `jenkins_docker_expose_port` var to false so that the
-port is not exposed on the host, only to the reverse proxy.
+- Define `jenkins_port_https` to the port that Jenkins should listen on
+- Define variables *either* for the JKS keystore or the CA signed certificate:
+  * For JKS keystore, you'll need to define:
+    - `jenkins_https_keystore`: Path to the keystore file on the control host,
+      which will be copied to the Jenkins server by this role.
+    - `jenkins_https_keystore_password`: Password for said JKS keystore. Use of
+      the Ansible vault is recommended for this.
+  * For a CA signed certificate file, you'll need to define:
+    - `jenkins_https_certificate`: Path to the certificate file, which will be
+      copied to the Jenkins server by this role.
+    - `jenkins_https_private_key`: Private key for said CA signed certificate.
+      Use of the Ansible vault is recommended for this.
+- Optionally, `jenkins_https_validate_certs` should be defined to `false` if
+  you are using a self-signed certificate.
+
+If you are deploying Jenkins with Docker, then using a reverse proxy such as
+[jwilder/nginx-proxy](https://github.com/jwilder/nginx-proxy) or
+[traefik](https://github.com/containous/traefik) is recommended instead of
+configuring Jenkins itself. This gives a bit more flexibility and allows for
+separation of responsibilities. See the documentation in those projects for
+more details on how to deploy the proxies and configure HTTPS.
+
+If using a reverse proxy in front of the Jenkins instance and deploying using
+Docker you probably want to set the `jenkins_docker_expose_port` variable to
+false so that the port is not exposed on the host, only to the reverse proxy.
 
 Authentication and Security
 ---------------------------

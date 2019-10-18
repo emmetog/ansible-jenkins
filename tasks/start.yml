@@ -4,6 +4,7 @@
 - name: Wait for Jenkins to start
   uri:
     url: "{{ jenkins_url }}"
+    validate_certs: "{{ jenkins_https_validate_certs }}"
   become: false
   register: jenkins_home_content
   # Jenkins will return 503 (service unavailable) on the home page while

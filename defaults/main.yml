@@ -2,7 +2,12 @@
 jenkins_version: "2.73.1"  # The exact version of jenkins to deploy
 
 jenkins_hostname: "127.0.0.1"  # The hostname that Jenkins will be accessible on
-jenkins_port: "8080"  # The port that Jenkins will listen on
+# The port that Jenkins will listen on for unsecured (HTTP) requests. Define to -1 to
+# disable HTTP.
+jenkins_port: "8080"
+# The port that Jenkins will listen on for secured (HTTPS) requests. Define to -1 to
+# disable HTTPS. Enabling this option requires a SSL certificate (see below).
+jenkins_port_https: "-1"
 jenkins_home: /data/jenkins  # The directory on the server where the Jenkins configs live
 jenkins_admin: "admin@example.com"  # The administrator email address for the server
 
@@ -71,6 +76,26 @@ jenkins_auth: "crumb"
 jenkins_api_token: ""
 # Username which owns the above API token.
 jenkins_api_username: ""
+
+#########################################
+# SSL vars: apply to Jenkins HTTPS only #
+#########################################
+
+# See https://wiki.jenkins.io/display/JENKINS/Starting+and+Accessing+Jenkins for more info
+
+# Jenkins JKS keystore file. Mutually exclusive with the certificate/private key options.
+jenkins_https_keystore: ""
+# Jenkins JKS keystore password.
+jenkins_https_keystore_password: ""
+
+# Jenkins CA signed certificate file. Mutually exclusive with the keystore options.
+jenkins_https_certificate: ""
+# Jenkins CA signed certificate private key.
+jenkins_https_private_key: ""
+
+# Set to false if you are using a self-signed certificate and wish to ignore any
+# certificate verification errors from Ansible.
+jenkins_https_validate_certs: true
 
 ###################################################
 # Docker vars: apply to deploying via docker only #

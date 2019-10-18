@@ -23,6 +23,7 @@
       Cookie: "{{ jenkins_crumb_cookie }}"
       Jenkins-Crumb: "{{ jenkins_crumb_token }}"
     status_code: 200,302
+    validate_certs: "{{ jenkins_https_validate_certs }}"
   when: jenkins_auth == "crumb"
 
 - name: Set quiet mode with no security

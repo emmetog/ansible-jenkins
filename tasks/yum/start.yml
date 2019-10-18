@@ -5,6 +5,7 @@
   uri:
     url: "{{ jenkins_url }}"
     status_code: 200
+    validate_certs: "{{ jenkins_https_validate_certs }}"
   register: result
   until: result.status == 200
   retries: 60
