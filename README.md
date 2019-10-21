@@ -39,91 +39,35 @@ $ ansible-galaxy install emmetog.jenkins
 Role Variables
 --------------
 
-```yml
-jenkins_version: "2.73.1" # The exact version of jenkins to deploy
+The following variables influence how Jenkins is installed:
 
-jenkins_url: "http://127.0.0.1" # The url that Jenkins will be accessible on
-jenkins_port: "8080" # The port that Jenkins will listen on
-jenkins_home: /data/jenkins # The directory on the server where the Jenkins configs will live
-jenkins_admin: "admin@example.com" # The admininstrator email address for the Jenkins server
+- `jenkins_install_via`: Controls how Jenkins is installed. **Important**: This
+  variable must be defined to one of the following values:
+  - `docker`: Install in a Docker container
+  - `apt`: Install Jenkins directly on Ubuntu/Debian Linux systems
+  - `yum`: Install Jenkins directly on RedHat/CentOS Linux systems
+- `jenkins_version`: The exact version of jenkins to install
 
-# If you need to override any java options then do that here.
-jenkins_java_opts: "-Djenkins.install.runSetupWizard=false"
+The following variables influence how Jenkins is configured:
 
-# Install Jenkins by means of a Docker container
-jenkins_install_via: "docker"
+- `jenkins_url`: The URL that Jenkins will be accessible on
+- `jenkins_port`: The port that Jenkins will listen on
+- `jenkins_home`: The directory on the server where the Jenkins configs will
+  live
+- `jenkins_admin`: The administrator's email address for the Jenkins server
+- `jenkins_java_opts`: Options passed to the Java executable
+- `jenkins_config_owner`: Owner of Jenkins configuration files
+- `jenkins_config_group`: Group of Jenkins configuration files
 
-# Install Jenkins directly on Ubuntu/Debian Linux systems
-jenkins_install_via: "apt"
+The following list variables influence the jobs/plugins that will be installed
+in Jenkins:
 
-# Install Jenkins directly on RedHat/CentOS Linux systems
-jenkins_install_via: "yum"
+- `jenkins_jobs`: List of names of the jobs to copy to Jenkins. The `config.xml`
+  file must exist under `jenkins_source_dir_jobs/<job_name>`
+- `jenkins_plugins`: List of plugin IDs to install on Jenkins.
+- `jenkins_custom_plugins`: List of custom plugins to install on Jenkins.
 
-# Configuration files owner and group
-jenkins_config_owner: "ubuntu"
-jenkins_config_group: "ubuntu"
-
-# The locations of the configuration files for jenkins
-jenkins_source_dir_configs: "{{ playbook_dir }}/jenkins-configs"
-jenkins_source_dir_jobs: "{{ jenkins_source_dir_configs }}/jobs"
-
-# config.xml template source
-jenkins_source_config_xml: "{{ jenkins_source_dir_configs }}/config.xml"
-
-# Include custom files for jenkins installation
-jenkins_include_custom_files: false
-jenkins_custom_files: {}
-
-# Include secrets directory during installation
-jenkins_include_secrets: false
-jenkins_source_secrets: "{{ jenkins_source_dir_configs }}/secrets/"
-
-# The names of the jobs (config.xml must exist under jenkins_source_dir_jobs/job_name/)
-jenkins_jobs: []
-
-# These plugins will be installed in the jenkins instance
-jenkins_plugins:
-  - git
-  - log-parser
-  - copyartifact
-  - workflow-aggregator
-  - workflow-multibranch
-  - docker-workflow
-  - template-project
-  - ec2
-
-# List of sources of custom jenkins plugins to install
-jenkins_custom_plugins: []
-
-###################################################
-# Docker vars: apply to deploying via docker only #
-###################################################
-
-# The docker hub image name
-jenkins_docker_image: "jenkins/jenkins"
-
-# Configs specific to the "docker" method of running jenkins
-# The name of the jenkins container
-jenkins_docker_container_name: jenkins
-
-# Default, if true, the port will be exposed on the host (using "port")
-# If set to false, the port will only be exposed to other containers (using "expose")
-jenkins_docker_expose_port: true
-
-
-#############################################
-# Apt vars: apply to deploying via apt only #
-#############################################
-
-# Packages which are to be installed on the jenkins instance
-jenkins_apt_packages:
-  - openjdk-8-jdk
-
-# Java version to use. Note that JDK 8 is required for Jenkins
-# 2.54 or greater.
-jenkins_java_version: "java-1.8.0-openjdk-amd64"
-
-```
+For a complete list of variables, see [`defaults/main.yml`](defaults/main.yml).
 
 Example Playbook
 ----------------
