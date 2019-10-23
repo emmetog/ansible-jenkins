@@ -62,6 +62,8 @@ jenkins_custom_plugins: []
 # - api: Use an API token which belongs to a specific user
 # - crumb: Use anonymous crumb-based authentication
 # - none: No security (not recommended)
+# For more information, please refer to the "Authentication and Security" section of the
+# README.
 jenkins_auth: "crumb"
 
 # When defined, use this API token instead of getting a crumb from the system. Requires

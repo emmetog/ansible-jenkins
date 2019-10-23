@@ -167,6 +167,72 @@ instance and deploying using docker you probably
 want to set the `jenkins_docker_expose_port` var to false so that the
 port is not exposed on the host, only to the reverse proxy.
 
+Authentication and Security
+---------------------------
+
+This role supports the following authentication mechanisms for Jenkins:
+
+1. API token-based authentication (recommended, requires at least Jenkins 2.96)
+2. Crumb-based authentication with the [Strict Crumb Issuer
+   plugin](https://plugins.jenkins.io/strict-crumb-issuer) (required if _not_
+   using API tokens and Jenkins 2.176.2 or newer)
+3. No security (not recommended)
+
+*API token-based authentication*
+
+API token-based authentication is recommended, but requires a bit of extra
+effort to configure. The advantage of API tokens is that they can be easily
+revoked in Jenkins, and their usage is also tracked. API tokens also do not
+require getting a crumb token, which has become more difficult since Jenkins
+version 2.172.2 (see [this security
+bulletin](https://jenkins.io/security/advisory/2019-07-17/#SECURITY-626).
+
+To create an API token, you'll need to do the following:
+
+1. All API tokens must belong to a specific user. So either create a special
+   user for deployments, or log in as the administrator or another account.
+2. In the user's configuration page, click the "Add new Token" button.
+3. Save the token value, preferably in an Ansible vault.
+4. Define the following variables in your playbook:
+  - `jenkins_auth: "api"`
+  - `jenkins_api_token: "(defined in the Anible vault)"`
+  - `jenkins_api_username: "(defined in the Ansible vault)"`
+5. Create a backup of the file `$JENKINS_HOME/users/the_username/config.xml`,
+   where `the_username` corresponds to the user which owns the API token you
+   just created.
+6. Add this file to your control host, and make sure that is deployed to Jenkins
+   in the `jenkins_custom_files` list, like so:
+
+```
+jenkins_custom_files:
+  - src: "users/the_username/config.xml"
+    dest: "users/ci/config.xml"
+```
+
+Note that you may need to change the `src` value, depending on where you save
+the file on the control machine relative to the playbook.
+
+*Crumb-based authentication*
+
+Crumb-based authentication can be used to prevent cross-site request forgery
+attacks and is recommended if API tokens are impractical. However, it can also
+be a bit tricky to configure this due to security fixes in Jenkins. To configure
+CSRF, you'll need to do the following:
+
+1. If you are using Jenkins >= 2.176.2, you'll need to install the
+   Strict Crumb Issuer plugin. This can be done by this role by adding the
+   `strict-crumb-issuer` ID to the `jenkins_plugins` list.
+2. In Jenkins, click on "Manage Jenkins" -> "Configure Global Security"
+3. In the "CSRF Protection" section, enable "Prevent Cross Site Request Forgery
+   exploits", and then select "Strict Crumb Issuer" if using Jenkins >= 2.176.2,
+   or otherwise "Default Crumb Issuer". Note that to see this option, you'll
+   need to have the Strict Crumb Issuer plugin installed.  Afterwards, you'll
+   also need to backup the main Jenkins `config.xml` file to the control host.
+
+Likewise, for the above to work, you'll need at least Ansible 2.9.0pre5 or 2.10
+(which are, at the time of this writing, both in development. See [this Ansible
+issue](https://github.com/ansible/ansible/issues/61672) for more details).
+
 Jenkins Configs
 ---------------
 
