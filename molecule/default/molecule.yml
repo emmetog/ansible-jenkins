@@ -20,6 +20,11 @@ provisioner:
   log: true
   lint:
     name: ansible-lint
+    options:
+      # E602: Don't compare to empty string
+      # All workarounds for this are uglier than just comparing to empty strings. See:
+      # https://github.com/ansible/ansible-lint/issues/457
+      x: ['602']
 verifier:
   name: testinfra
   lint:

@@ -1,4 +1,6 @@
 ---
+- include: "sanity-checks.yml"
+
 - include: "{{ jenkins_install_via }}/install.yml"
 
 - include: "configure-jenkins.yml"

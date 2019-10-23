@@ -1,0 +1,15 @@
+---
+- name: Sanity check Jenkins authentication mechanism variable
+  fail:
+    msg: "Invalid value for jenkins_auth variable"
+  when: jenkins_auth not in ["api", "crumb", "none"]
+
+- name: Sanity check API token
+  fail:
+    msg: "jenkins_api_token is required when using API-based authentication"
+  when: jenkins_auth == "api" and jenkins_api_token == ""
+
+- name: Sanity check API username
+  fail:
+    msg: "jenkins_api_username is required when using API-based authentication"
+  when: jenkins_auth == "api" and jenkins_api_username == ""
