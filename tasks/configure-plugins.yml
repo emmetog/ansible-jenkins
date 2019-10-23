@@ -1,4 +1,13 @@
 ---
+- name: Custom plugins are installed
+  copy:
+    src: "{{ item }}"
+    dest: "{{ jenkins_home }}/plugins/"
+    owner: "{{ jenkins_config_owner }}"
+    group: "{{ jenkins_config_group }}"
+    mode: 0644
+  with_items: "{{ jenkins_custom_plugins }}"
+  when: jenkins_custom_plugins is defined
 
 # Jenkins must be running in order to install plugins from the internet, but
 # we should put it into quiet mode immediately to avoid any jobs being
@@ -16,12 +25,3 @@
     timeout: "{{ jenkins_plugin_timeout }}"
   with_items: "{{ jenkins_plugins }}"
 
-- name: Custom plugins are installed
-  copy:
-    src: "{{ item }}"
-    dest: "{{ jenkins_home }}/plugins/"
-    owner: "{{ jenkins_config_owner }}"
-    group: "{{ jenkins_config_group }}"
-    mode: 0644
-  with_items: "{{ jenkins_custom_plugins }}"
-  when: jenkins_custom_plugins is defined
