@@ -8,6 +8,7 @@
     method: POST
     headers:
       Content-Type: "text/xml"
+      Cookie: "{{ jenkins_crumb_cookie }}"
       Jenkins-Crumb: "{{ jenkins_crumb_token }}"
     status_code: 200,302
   when: jenkins_auth == "crumb"

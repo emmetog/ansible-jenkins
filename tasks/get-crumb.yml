@@ -14,3 +14,13 @@
   set_fact:
     jenkins_crumb_token: "{{ jenkins_crumb.content.split(':')[1] | default('noCrumb') }}"
   when: jenkins_crumb.status == 200
+
+- name: Initialize Jenkins crumb cookie fact
+  set_fact:
+    jenkins_crumb_cookie: ""
+
+- name: Save Jenkins crumb cookie for Jenkins >= 2.176.2
+  set_fact:
+    jenkins_crumb_cookie: "{{ jenkins_crumb.set_cookie }}"
+  when: >
+    jenkins_crumb.status == 200 and jenkins_version is version_compare("2.176.2", ">=")
