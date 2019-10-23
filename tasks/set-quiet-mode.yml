@@ -1,12 +1,22 @@
 ---
 - include_tasks: "get-crumb.yml"
+  when: jenkins_auth == "crumb"
 
-- name: Set quiet mode
+- name: Set quiet mode with crumb
   uri:
     url: "{{ jenkins_url }}:{{ jenkins_port }}/quietDown"
     method: POST
     headers:
       Content-Type: "text/xml"
-      Jenkins-Crumb: "{{ jenkins_token.content.split(':')[1] | default('noCrumb') }}"
+      Jenkins-Crumb: "{{ jenkins_crumb_token }}"
     status_code: 200,302
-  when: jenkins_token.status == 200
+  when: jenkins_auth == "crumb"
+
+- name: Set quiet mode with no security
+  uri:
+    url: "{{ jenkins_url }}:{{ jenkins_port }}/quietDown"
+    method: POST
+    headers:
+      Content-Type: "text/xml"
+    status_code: 200,302
+  when: jenkins_auth == "none"

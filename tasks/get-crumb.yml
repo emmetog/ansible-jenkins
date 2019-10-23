@@ -1,15 +1,16 @@
 ---
-- name: Get token for Jenkins API
+- name: Get crumb for Jenkins API
   uri:
     url: '{{ jenkins_url }}:{{ jenkins_port }}
       /crumbIssuer/api/xml?xpath=concat(//crumbRequestField,":",//crumb)'
     return_content: true
     status_code: 200,404
-  register: jenkins_token_result
-  until: jenkins_token_result.status == 200 or jenkins_token_result.status == 404
+  register: jenkins_crumb
+  until: jenkins_crumb.status == 200 or jenkins_crumb.status == 404
   retries: 5
   delay: 1
 
-- name: Set fact with Jenkins token
+- name: Set Jenkins token from crumb
   set_fact:
-    jenkins_token: "{{ jenkins_token_result }}"
+    jenkins_crumb_token: "{{ jenkins_crumb.content.split(':')[1] | default('noCrumb') }}"
+  when: jenkins_crumb.status == 200

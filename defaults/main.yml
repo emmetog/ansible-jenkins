@@ -54,6 +54,15 @@ jenkins_plugin_timeout: 300
 # List of sources of custom jenkins plugins to install
 jenkins_custom_plugins: []
 
+#######################
+# Authentication vars #
+#######################
+
+# Mechanism to use when authenticating to Jenkins. Must be one of the following values:
+# - crumb: Use anonymous crumb-based authentication
+# - none: No security (not recommended)
+jenkins_auth: "crumb"
+
 ###################################################
 # Docker vars: apply to deploying via docker only #
 ###################################################
