@@ -2,6 +2,18 @@
 - include_tasks: "get-crumb.yml"
   when: jenkins_auth == "crumb"
 
+- name: Set quiet mode with API token
+  uri:
+    url: "{{ jenkins_url }}:{{ jenkins_port }}/quietDown"
+    method: POST
+    headers:
+      Content-Type: "text/xml"
+    status_code: 200,302
+    url_username: "{{ jenkins_api_username }}"
+    url_password: "{{ jenkins_api_token }}"
+    force_basic_auth: true
+  when: jenkins_auth == "api"
+
 - name: Set quiet mode with crumb
   uri:
     url: "{{ jenkins_url }}:{{ jenkins_port }}/quietDown"
