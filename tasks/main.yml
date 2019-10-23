@@ -3,10 +3,10 @@
 
 - include: "configure-jenkins.yml"
 
-- include: "configure-plugins.yml"
-
 - include: "configure-files.yml"
   when: jenkins_include_custom_files
+
+- include: "configure-plugins.yml"
 
 - include: "configure-jobs.yml"
 
