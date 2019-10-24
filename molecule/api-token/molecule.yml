@@ -1,0 +1,44 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+lint:
+  name: yamllint
+platforms:
+  - name: instance
+    image: ubuntu:16.04
+    privileged: true
+    exposed_ports:
+      - 8080/tcp
+    published_ports:
+      - 0.0.0.0:8080:8080/tcp
+    env:
+      JENKINS_HOME: /jenkins
+provisioner:
+  name: ansible
+  log: true
+  lint:
+    name: ansible-lint
+    options:
+      # E602: Don't compare to empty string
+      # All workarounds for this are uglier than just comparing to empty strings. See:
+      # https://github.com/ansible/ansible-lint/issues/457
+      x: ['602']
+scenario:
+  test_sequence:
+    - destroy
+    - create
+    - converge
+    # The idempotence check must be disabled for this scenario, because we are copying
+    # custom files for user accounts. These files (or rather, their parent directories)
+    # are renamed by Jenkins when it starts up in order to avoid naming conflicts. So
+    # "users/molecule/config.xml" becomes "users/molecule_7942252632599620805/config.xml",
+    # with a randomly-generated number.
+    # - idempotence
+    - lint
+    - verify
+verifier:
+  name: testinfra
+  lint:
+    name: flake8

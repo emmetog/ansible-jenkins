@@ -1,0 +1,24 @@
+---
+- name: Converge
+  hosts: all
+  vars:
+    jenkins_auth: "api"
+    jenkins_api_username: "molecule"
+    # NOTE: Do not store actual API tokens in plain-text in your playbooks. Always use an
+    # Ansible vault for such data.
+    jenkins_api_token: "110cd5010cc081551972181446639ba99f"
+    jenkins_config_owner: "jenkins"
+    jenkins_config_group: "jenkins"
+    jenkins_home: "/jenkins"
+    jenkins_install_via: "apt"
+    jenkins_custom_files:
+      - src: "users/molecule/config.xml"
+        dest: "users/molecule/config.xml"
+    jenkins_include_custom_files: true
+    jenkins_jobs:
+      - test_job
+    jenkins_plugins:
+      - git
+    jenkins_version: "2.190.1"
+  roles:
+    - ansible-jenkins
