@@ -63,6 +63,12 @@ def test_jenkins_custom_files(host):
     assert host.file('/jenkins/userContent/index.html').group == 'jenkins'
 
 
+def test_jenkins_java_process(host):
+    process = host.process.get(command='/usr/bin/java')
+
+    assert '-Djenkins.install.runSetupWizard=false' in process.args
+
+
 def test_jenkins_version():
     master = Jenkins('http://127.0.0.1:8080')
     version = master.get_version()
