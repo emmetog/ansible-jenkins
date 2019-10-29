@@ -15,6 +15,11 @@ def test_jenkins_installed(host):
     assert package.is_installed
 
 
+def test_jenkins_user(host):
+    assert host.user('jenkins').group == 'jenkins'
+    assert host.user('jenkins').home == '/jenkins'
+
+
 def test_jenkins_version():
     master = Jenkins('http://127.0.0.1:8080')
     version = master.get_version()
