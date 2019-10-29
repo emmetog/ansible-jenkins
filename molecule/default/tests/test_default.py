@@ -30,6 +30,19 @@ def test_jenkins_dir(host):
     assert host.file('/jenkins/config.xml').group == 'jenkins'
 
 
+def test_jenkins_job_files(host):
+    assert host.file('/jenkins/jobs').is_directory
+    assert host.file('/jenkins/jobs').user == 'jenkins'
+    assert host.file('/jenkins/jobs').group == 'jenkins'
+    assert host.file('/jenkins/jobs/test_job').is_directory
+    assert host.file('/jenkins/jobs/test_job').user == 'jenkins'
+    assert host.file('/jenkins/jobs/test_job').group == 'jenkins'
+    test_job_config_file = host.file('/jenkins/jobs/test_job/config.xml')
+    assert test_job_config_file.is_file
+    assert test_job_config_file.user == 'jenkins'
+    assert test_job_config_file.group == 'jenkins'
+
+
 def test_jenkins_version():
     master = Jenkins('http://127.0.0.1:8080')
     version = master.get_version()
