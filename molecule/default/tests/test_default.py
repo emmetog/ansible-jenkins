@@ -30,6 +30,17 @@ def test_jenkins_dir(host):
     assert host.file('/jenkins/config.xml').group == 'jenkins'
 
 
+def test_jenkins_secrets_files(host):
+    assert host.file('/jenkins/secrets').is_directory
+    assert host.file('/jenkins/secrets').mode == 0o0700
+    assert host.file('/jenkins/secrets').user == 'jenkins'
+    assert host.file('/jenkins/secrets').group == 'jenkins'
+    test_secret_file = host.file('/jenkins/secrets/com.example.secret.xml')
+    assert test_secret_file.is_file
+    assert test_secret_file.user == 'jenkins'
+    assert test_secret_file.group == 'jenkins'
+
+
 def test_jenkins_job_files(host):
     assert host.file('/jenkins/jobs').is_directory
     assert host.file('/jenkins/jobs').user == 'jenkins'

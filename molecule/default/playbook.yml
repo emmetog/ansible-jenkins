@@ -9,6 +9,7 @@
         dest: "userContent/index.html"
     jenkins_home: "/jenkins"
     jenkins_include_custom_files: true
+    jenkins_include_secrets: true
     jenkins_install_via: "apt"
     jenkins_jobs:
       - test_job
