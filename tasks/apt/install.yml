@@ -12,9 +12,12 @@
     shell: "/bin/false"
     state: present
 
+# This package is only available for Xenial (16.04), see:
+# https://packages.ubuntu.com/search?keywords=python-software-properties
 - name: Install apt PPA dependencies
   apt:
     name: python-software-properties
+  when: ansible_distribution_release == "xenial"
 
 - name: Install the Debian keyring
   apt:
