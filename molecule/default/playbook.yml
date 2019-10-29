@@ -4,7 +4,11 @@
   vars:
     jenkins_config_owner: "jenkins"
     jenkins_config_group: "jenkins"
+    jenkins_custom_files:
+      - src: "userContent/index.html"
+        dest: "userContent/index.html"
     jenkins_home: "/jenkins"
+    jenkins_include_custom_files: true
     jenkins_install_via: "apt"
     jenkins_jobs:
       - test_job

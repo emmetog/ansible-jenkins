@@ -43,6 +43,15 @@ def test_jenkins_job_files(host):
     assert test_job_config_file.group == 'jenkins'
 
 
+def test_jenkins_custom_files(host):
+    assert host.file('/jenkins/userContent').is_directory
+    assert host.file('/jenkins/userContent').user == 'jenkins'
+    assert host.file('/jenkins/userContent').group == 'jenkins'
+    assert host.file('/jenkins/userContent/index.html').is_file
+    assert host.file('/jenkins/userContent/index.html').user == 'jenkins'
+    assert host.file('/jenkins/userContent/index.html').group == 'jenkins'
+
+
 def test_jenkins_version():
     master = Jenkins('http://127.0.0.1:8080')
     version = master.get_version()
