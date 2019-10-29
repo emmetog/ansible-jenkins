@@ -20,6 +20,16 @@ def test_jenkins_user(host):
     assert host.user('jenkins').home == '/jenkins'
 
 
+def test_jenkins_dir(host):
+    assert host.file('/jenkins').is_directory
+    assert host.file('/jenkins').mode == 0o0755
+    assert host.file('/jenkins').user == 'jenkins'
+    assert host.file('/jenkins').group == 'jenkins'
+    assert host.file('/jenkins/config.xml').is_file
+    assert host.file('/jenkins/config.xml').user == 'jenkins'
+    assert host.file('/jenkins/config.xml').group == 'jenkins'
+
+
 def test_jenkins_version():
     master = Jenkins('http://127.0.0.1:8080')
     version = master.get_version()
