@@ -21,4 +21,4 @@ RUN \
         yum clean all; \
     fi
 
-RUN useradd -d /jenkins -m -U jenkins
+RUN useradd -G sudo molecule
