@@ -1,21 +1,4 @@
 ---
-
-# Jenkins must be running in order to install plugins from the internet, but
-# we should put it into quiet mode immediately to avoid any jobs being
-# scheduled.
-- include_tasks: "start.yml"
-- include_tasks: "set-quiet-mode.yml"
-
-- name: Install plugins
-  jenkins_plugin:
-    name: "{{ item }}"
-    jenkins_home: "{{ jenkins_home }}"
-    owner: "{{ jenkins_config_owner }}"
-    group: "{{ jenkins_config_group }}"
-    url: "{{ jenkins_url }}:{{ jenkins_port }}"
-    timeout: "{{ jenkins_plugin_timeout }}"
-  with_items: "{{ jenkins_plugins }}"
-
 - name: Custom plugins are installed
   copy:
     src: "{{ item }}"
@@ -25,3 +8,38 @@
     mode: 0644
   with_items: "{{ jenkins_custom_plugins }}"
   when: jenkins_custom_plugins is defined
+
+# Jenkins must be running in order to install plugins from the internet, but
+# we should put it into quiet mode immediately to avoid any jobs being
+# scheduled.
+- include_tasks: "start.yml"
+- include_tasks: "set-quiet-mode.yml"
+
+- name: Install plugins with API token
+  jenkins_plugin:
+    name: "{{ item }}"
+    jenkins_home: "{{ jenkins_home }}"
+    owner: "{{ jenkins_config_owner }}"
+    group: "{{ jenkins_config_group }}"
+    url: "{{ jenkins_url }}:{{ jenkins_port }}"
+    timeout: "{{ jenkins_plugin_timeout }}"
+    url_username: "{{ jenkins_api_username }}"
+    url_password: "{{ jenkins_api_token }}"
+    force_basic_auth: true
+  with_items: "{{ jenkins_plugins }}"
+  when: jenkins_auth == "api"
+
+# As of Jenkins 2.176.2, installing plugins requires a crumb. The jenkins_plugin module
+# will get its own crumb for this, but only in Ansible 2.9 and newer. So if you are
+# seeing crumb-related errors during deployments while installing plugins, either
+# update your Ansible or switch to API-based authentication.
+- name: Install plugins without an API token
+  jenkins_plugin:
+    name: "{{ item }}"
+    jenkins_home: "{{ jenkins_home }}"
+    owner: "{{ jenkins_config_owner }}"
+    group: "{{ jenkins_config_group }}"
+    url: "{{ jenkins_url }}:{{ jenkins_port }}"
+    timeout: "{{ jenkins_plugin_timeout }}"
+  with_items: "{{ jenkins_plugins }}"
+  when: jenkins_auth == "crumb" or jenkins_auth == "none"

@@ -1,12 +1,35 @@
 ---
-- include_tasks: "get-crumb.yml"
-
-- name: Cancel quiet mode
+- name: Cancel quiet mode with API token
   uri:
     url: "{{ jenkins_url }}:{{ jenkins_port }}/cancelQuietDown"
     method: POST
     headers:
       Content-Type: "text/xml"
-      Jenkins-Crumb: "{{ jenkins_token.content.split(':')[1] | default('noCrumb') }}"
     status_code: 200,302
-  when: jenkins_token.status == 200
+    url_username: "{{ jenkins_api_username }}"
+    url_password: "{{ jenkins_api_token }}"
+    force_basic_auth: true
+  when: jenkins_auth == "api"
+
+- include_tasks: "get-crumb.yml"
+  when: jenkins_auth == "crumb"
+
+- name: Cancel quiet mode with crumb
+  uri:
+    url: "{{ jenkins_url }}:{{ jenkins_port }}/cancelQuietDown"
+    method: POST
+    headers:
+      Content-Type: "text/xml"
+      Cookie: "{{ jenkins_crumb_cookie }}"
+      Jenkins-Crumb: "{{ jenkins_crumb_token }}"
+    status_code: 200,302
+  when: jenkins_auth == "crumb"
+
+- name: Cancel quiet mode with no security
+  uri:
+    url: "{{ jenkins_url }}:{{ jenkins_port }}/cancelQuietDown"
+    method: POST
+    headers:
+      Content-Type: "text/xml"
+    status_code: 200,302
+  when: jenkins_auth == "none"

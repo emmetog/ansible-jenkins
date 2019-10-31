@@ -54,6 +54,24 @@ jenkins_plugin_timeout: 300
 # List of sources of custom jenkins plugins to install
 jenkins_custom_plugins: []
 
+#######################
+# Authentication vars #
+#######################
+
+# Mechanism to use when authenticating to Jenkins. Must be one of the following values:
+# - api: Use an API token which belongs to a specific user
+# - crumb: Use anonymous crumb-based authentication
+# - none: No security (not recommended)
+# For more information, please refer to the "Authentication and Security" section of the
+# README.
+jenkins_auth: "crumb"
+
+# When defined, use this API token instead of getting a crumb from the system. Requires
+# jenkins_api_username.
+jenkins_api_token: ""
+# Username which owns the above API token.
+jenkins_api_username: ""
+
 ###################################################
 # Docker vars: apply to deploying via docker only #
 ###################################################
