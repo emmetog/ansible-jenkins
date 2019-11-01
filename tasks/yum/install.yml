@@ -38,17 +38,3 @@
   yum:
     name: jenkins
     state: present
-
-- name: Set JENKINS_HOME
-  lineinfile:
-    create: "yes"
-    dest: "/etc/default/jenkins"
-    line: "JENKINS_HOME={{ jenkins_home }}"
-    regexp: '^JENKINS_HOME='
-    state: "present"
-
-- name: "Set Jenkins command line options"
-  lineinfile:
-    dest: /etc/default/jenkins
-    regexp: '^JAVA_ARGS='
-    line: "JAVA_ARGS=\"{{ jenkins_java_opts }}\""

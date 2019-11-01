@@ -1,0 +1,57 @@
+---
+- name: Set JENKINS_HOME
+  lineinfile:
+    create: true
+    dest: "/etc/default/jenkins"
+    line: "JENKINS_HOME={{ jenkins_home }}"
+    regexp: '^JENKINS_HOME='
+    state: present
+
+- name: Set Jenkins port
+  lineinfile:
+    dest: /etc/default/jenkins
+    regexp: '^HTTP_PORT='
+    line: "HTTP_PORT={{ jenkins_port }}"
+
+- name: Set Jenkins Java command line options
+  lineinfile:
+    dest: /etc/default/jenkins
+    regexp: '^JAVA_ARGS='
+    line: "JAVA_ARGS=\"{{ jenkins_java_opts }}\""
+
+- name: Copy JKS keystore credentials
+  copy:
+    src: "{{ jenkins_https_keystore }}"
+    dest: "{{ jenkins_home }}"
+  when: jenkins_https_keystore and jenkins_https_keystore_password
+
+- name: Copy CA signed certificate
+  copy:
+    src: "{{ jenkins_https_certificate }}"
+    dest: "{{ jenkins_home }}"
+  when: jenkins_https_certificate and jenkins_https_private_key
+
+- name: Initialize HTTPS credentials fact
+  set_fact:
+    jenkins_https_creds: ""
+
+- name: Set JKS keystore credentials
+  set_fact:
+    jenkins_https_creds: >
+      --httpsKeyStore='{{ jenkins_home }}/{{ jenkins_https_keystore }}' \
+      --httpsKeyStorePassword='{{ jenkins_https_keystore_password }}'
+  when: jenkins_https_keystore and jenkins_https_keystore_password
+
+- name: Set CA signed certificate credentials
+  set_fact:
+    jenkins_https_creds: >
+      --httpsCertificate='{{ jenkins_home }}/{{ jenkins_https_certificate }}' \
+      --httpsPrivateKey='{{ jenkins_https_private_key }}'
+  when: jenkins_https_certificate and jenkins_https_private_key
+
+- name: Set Jenkins command line options
+  lineinfile:
+    dest: /etc/default/jenkins
+    regexp: '^JENKINS_ARGS='
+    line: "JENKINS_ARGS=\"--webroot=/var/cache/$NAME/war --httpPort={{ jenkins_port }} \
+      --httpsPort={{ jenkins_port_https }} {{ jenkins_https_creds }}\""
