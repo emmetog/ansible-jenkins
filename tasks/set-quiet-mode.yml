@@ -12,6 +12,7 @@
     url_username: "{{ jenkins_api_username }}"
     url_password: "{{ jenkins_api_token }}"
     force_basic_auth: true
+    validate_certs: "{{ jenkins_https_validate_certs }}"
   when: jenkins_auth == "api"
 
 - name: Set quiet mode with crumb
@@ -33,4 +34,5 @@
     headers:
       Content-Type: "text/xml"
     status_code: 200,302
+    validate_certs: "{{ jenkins_https_validate_certs }}"
   when: jenkins_auth == "none"

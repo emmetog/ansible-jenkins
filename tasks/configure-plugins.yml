@@ -42,5 +42,6 @@
     group: "{{ jenkins_config_group }}"
     url: "{{ jenkins_url }}"
     timeout: "{{ jenkins_plugin_timeout }}"
+    validate_certs: "{{ jenkins_https_validate_certs }}"
   with_items: "{{ jenkins_plugins }}"
   when: jenkins_auth == "crumb" or jenkins_auth == "none"
