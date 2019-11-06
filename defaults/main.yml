@@ -40,16 +40,8 @@ jenkins_source_secrets: "{{ jenkins_source_dir_configs }}/secrets/"
 # The names of the jobs (config.xml must exist under jenkins_source_dir_jobs/job_name/)
 jenkins_jobs: []
 
-# These plugins will be installed in the jenkins instance
-jenkins_plugins:
-  - git
-  - log-parser
-  - copyartifact
-  - workflow-aggregator
-  - workflow-multibranch
-  - docker-workflow
-  - template-project
-  - ec2
+# List of plugins to install in the Jenkins instance
+jenkins_plugins: []
 
 # How long to wait for installing plugins, in seconds. If you are seeing failures in the
 # "Wait for plugins to finish installing" task with an error message like "Timeout when
