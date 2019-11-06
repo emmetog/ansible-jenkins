@@ -34,27 +34,27 @@
     mode: 0755
     state: directory
 
-- name: Configuration file is up to date (config.xml)
+- name: Ensure main configuration file is up to date
   template:
     src: "{{ jenkins_source_config_xml }}"
     dest: "{{ jenkins_home }}/config.xml"
-    mode: 0644
     owner: "{{ jenkins_config_owner }}"
     group: "{{ jenkins_config_group }}"
+    mode: 0644
 
 - name: Configure Jenkins location
   template:
     src: files/jenkins.model.JenkinsLocationConfiguration.xml.j2
     dest: "{{ jenkins_home }}/jenkins.model.JenkinsLocationConfiguration.xml"
-    mode: 0644
     owner: "{{ jenkins_config_owner }}"
     group: "{{ jenkins_config_group }}"
+    mode: 0644
 
 - name: Initialize Jenkins secrets dir fact
   set_fact:
     jenkins_secrets: "{{ jenkins_home }}/secrets"
 
-- name: secrets dir is up to date
+- name: Copy secrets
   copy:
     src: "{{ jenkins_source_secrets }}"
     dest: "{{ jenkins_secrets }}"
@@ -62,10 +62,13 @@
     group: "{{ jenkins_config_group }}"
   when: jenkins_include_secrets
 
-- name: set permissions on secrets dir
+- name: Ensure correct ownership of secrets directory
   file:
     path: "{{ jenkins_secrets }}"
+    owner: "{{ jenkins_config_owner }}"
+    group: "{{ jenkins_config_group }}"
     mode: 0700
+    state: directory
   when: jenkins_include_secrets
 
 - name: Copy JKS keystore credentials
