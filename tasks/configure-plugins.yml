@@ -45,3 +45,8 @@
     validate_certs: "{{ jenkins_https_validate_certs }}"
   with_items: "{{ jenkins_plugins }}"
   when: jenkins_auth == "crumb" or jenkins_auth == "none"
+
+- name: Wait for plugins to finish installing
+  wait_for:
+    path: "{{ jenkins_home }}/plugins/{{ item }}.jpi"
+  with_items: "{{ jenkins_plugins }}"
