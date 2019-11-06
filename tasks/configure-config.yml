@@ -35,6 +35,12 @@
     dest: "{{ jenkins_secrets }}/"
   when: jenkins_https_certificate and jenkins_https_private_key
 
+- name: Copy CA certificate private key
+  copy:
+    src: "{{ jenkins_https_private_key }}"
+    dest: "{{ jenkins_secrets }}/"
+  when: jenkins_https_certificate and jenkins_https_private_key
+
 - name: Initialize HTTPS credentials fact
   set_fact:
     jenkins_https_creds: ""
