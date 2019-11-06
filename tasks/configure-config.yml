@@ -47,16 +47,23 @@
 
 - name: Set JKS keystore credentials
   set_fact:
-    jenkins_https_creds: >
-      --httpsKeyStore='{{ jenkins_home }}/{{ jenkins_https_keystore }}' \
+    jenkins_https_creds: >-
+      --httpsKeyStore='{{ jenkins_secrets }}/{{ jenkins_https_keystore | basename }}'
       --httpsKeyStorePassword='{{ jenkins_https_keystore_password }}'
   when: jenkins_https_keystore and jenkins_https_keystore_password
 
+# This fact prevents the next task from going over >90 chars
+- name: Set fact for HTTPS certificate file
+  set_fact:
+    jenkins_https_certificate_file: >-
+      {{ jenkins_secrets }}/{{ jenkins_https_certificate | basename }}
+  when: jenkins_https_certificate and jenkins_https_private_key
+
 - name: Set CA signed certificate credentials
   set_fact:
-    jenkins_https_creds: >
-      --httpsCertificate='{{ jenkins_home }}/{{ jenkins_https_certificate }}' \
-      --httpsPrivateKey='{{ jenkins_https_private_key }}'
+    jenkins_https_creds: >-
+      --httpsCertificate='{{ jenkins_https_certificate_file }}'
+      --httpsPrivateKey='{{ jenkins_secrets }}/{{ jenkins_https_private_key | basename }}'
   when: jenkins_https_certificate and jenkins_https_private_key
 
 - name: Set Jenkins command line options
