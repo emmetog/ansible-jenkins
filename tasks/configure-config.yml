@@ -19,16 +19,20 @@
     regexp: '^JAVA_ARGS='
     line: "JAVA_ARGS=\"{{ jenkins_java_opts }}\""
 
+- name: Initialize Jenkins secrets dir fact
+  set_fact:
+    jenkins_secrets: "{{ jenkins_home }}/secrets"
+
 - name: Copy JKS keystore credentials
   copy:
     src: "{{ jenkins_https_keystore }}"
-    dest: "{{ jenkins_home }}"
+    dest: "{{ jenkins_secrets }}/"
   when: jenkins_https_keystore and jenkins_https_keystore_password
 
 - name: Copy CA signed certificate
   copy:
     src: "{{ jenkins_https_certificate }}"
-    dest: "{{ jenkins_home }}"
+    dest: "{{ jenkins_secrets }}/"
   when: jenkins_https_certificate and jenkins_https_private_key
 
 - name: Initialize HTTPS credentials fact
