@@ -69,7 +69,6 @@
     group: "{{ jenkins_config_group }}"
     mode: 0700
     state: directory
-  when: jenkins_include_secrets
 
 - name: Copy JKS keystore credentials
   copy:
