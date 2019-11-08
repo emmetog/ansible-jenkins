@@ -1,0 +1,19 @@
+---
+- name: Converge
+  hosts: all
+  vars:
+    jenkins_auth: "none"
+    jenkins_config_owner: "jenkins"
+    jenkins_config_group: "jenkins"
+    jenkins_home: "/jenkins"
+    jenkins_https_keystore: "{{ playbook_dir }}/ssl/test-cert.jks"
+    # NOTE: For testing purposes, we are using a self-signed certificate with the password
+    # of "password". You are of course advised to store such data in an Ansible vault.
+    jenkins_https_keystore_password: "password"
+    jenkins_https_validate_certs: false
+    jenkins_install_via: "apt"
+    jenkins_port: "-1"
+    jenkins_port_https: "8080"
+    jenkins_version: "2.190.2"
+  roles:
+    - ansible-jenkins
