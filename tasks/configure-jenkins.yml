@@ -12,11 +12,19 @@
     state: present
   when: jenkins_install_via != "docker"
 
-- name: Set Jenkins port
+- name: Set Jenkins port for HTTP
   lineinfile:
     dest: /etc/default/jenkins
     regexp: '^HTTP_PORT='
     line: "HTTP_PORT={{ jenkins_port }}"
+  when: jenkins_install_via != "docker"
+
+- name: Set Jenkins port for HTTPS
+  lineinfile:
+    dest: /etc/default/jenkins
+    regexp: '^HTTPS_PORT='
+    insertafter: '^HTTP_PORT='
+    line: "HTTPS_PORT={{ jenkins_port_https }}"
   when: jenkins_install_via != "docker"
 
 - name: Set Jenkins Java command line options
@@ -117,5 +125,5 @@
   lineinfile:
     dest: /etc/default/jenkins
     regexp: '^JENKINS_ARGS='
-    line: "JENKINS_ARGS=\"--webroot=/var/cache/$NAME/war --httpPort={{ jenkins_port }} \
-      --httpsPort={{ jenkins_port_https }} {{ jenkins_https_creds }}\""
+    line: "JENKINS_ARGS=\"--webroot=/var/cache/$NAME/war --httpPort=$HTTP_PORT \
+      --httpsPort=$HTTPS_PORT {{ jenkins_https_creds }}\""
