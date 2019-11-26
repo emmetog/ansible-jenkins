@@ -1,0 +1,16 @@
+# Molecule managed
+
+{% if item.registry is defined %}
+FROM {{ item.registry.url }}/{{ item.image }}
+{% else %}
+FROM {{ item.image }}
+{% endif %}
+
+RUN apt-get update && \
+    apt-get install -y gpg apt-transport-https aptitude bash ca-certificates sudo \
+        python python-apt && \
+    apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key 04EE7237B7D453EC && \
+    apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key 648ACFD622F3D138 && \
+    apt-get clean
+
+RUN useradd -G sudo molecule

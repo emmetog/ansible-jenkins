@@ -1,0 +1,11 @@
+---
+- name: Converge
+  hosts: all
+  vars:
+    jenkins_config_owner: "jenkins"
+    jenkins_config_group: "jenkins"
+    jenkins_home: "/jenkins"
+    jenkins_install_via: "apt"
+    jenkins_version: "2.176.1"
+  roles:
+    - ansible-jenkins
