@@ -263,9 +263,13 @@ the file on the control machine relative to the playbook.
 *Crumb-based authentication*
 
 Crumb-based authentication can be used to prevent cross-site request forgery
-attacks and is recommended if API tokens are impractical. However, it can also
-be a bit tricky to configure this due to security fixes in Jenkins. To configure
-CSRF, you'll need to do the following:
+attacks and is recommended if API tokens are impractical. **Note**: crumb-based
+authentication only works with the "Anyone can do anything" access control
+setting. If your Jenkins configuration requires a stricter security setup, you
+should use API tokens (documented above).
+
+Crumb-based authentication can also be a bit tricky to configure due to recent
+security fixes in Jenkins. To configure CSRF, you'll need to do the following:
 
 1. If you are using Jenkins >= 2.176.2, you'll need to install the
    Strict Crumb Issuer plugin. This can be done by this role by adding the
