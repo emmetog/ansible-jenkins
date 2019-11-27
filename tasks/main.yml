@@ -20,6 +20,11 @@
     jenkins_url: "https://{{ jenkins_hostname }}:{{ jenkins_port_https }}"
   when: jenkins_port_https != "-1" and jenkins_url is not defined
 
+- name: Set jenkins_url_health_check fact
+  set_fact:
+    jenkins_url_health_check: "{{ jenkins_url }}"
+  when: jenkins_url_health_check is not defined
+
 - include: "{{ jenkins_install_via }}/install.yml"
 
 - include: "configure-jenkins.yml"

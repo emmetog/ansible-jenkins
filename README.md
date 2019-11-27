@@ -55,6 +55,9 @@ The following variables influence how Jenkins is configured:
 - `jenkins_config_group`: Group of Jenkins configuration files
 - `jenkins_auth`: How Ansible should authenticate itself with Jenkins, (see the
   "Authentication and Security" section below)
+- `jenkins_url_health_check`: which url to use for the health check after jenkins is started (defaults to `jenkins_url`)
+- `jenkins_health_check_user`: if defined, uses basic auth (see API token section) for health check with this username (useful if you set up e.g. Google OAuth)
+- `jenkins_health_check_password`: if defined, uses basic auth (see API token section) for health check with this password (useful if you set up e.g. Google OAuth)
 
 The following list variables influence the jobs/plugins that will be installed
 in Jenkins:
