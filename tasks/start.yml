@@ -1,9 +1,21 @@
 ---
 - include_tasks: "{{ jenkins_install_via }}/start.yml"
 
+- name: Initialize jenkins_force_basic_auth parameter
+  set_fact:
+    jenkins_force_basic_auth: false
+
+- name: Set jenkins_force_basic_auth parameter
+  set_fact:
+    jenkins_force_basic_auth: true
+  when: jenkins_health_check_user is defined
+
 - name: Wait for Jenkins to start
   uri:
-    url: "{{ jenkins_url }}"
+    url: "{{ jenkins_url_health_check }}"
+    url_username: "{{ jenkins_health_check_user | default(omit) }}"
+    url_password: "{{ jenkins_health_check_password | default(omit) }}"
+    force_basic_auth: "{{ jenkins_force_basic_auth }}"
     validate_certs: "{{ jenkins_https_validate_certs }}"
   become: false
   register: jenkins_home_content
