@@ -64,5 +64,4 @@
 - name: Install Jenkins binary package
   apt:
     name: "jenkins={{ jenkins_version }}"
-    force: true
     update_cache: true
