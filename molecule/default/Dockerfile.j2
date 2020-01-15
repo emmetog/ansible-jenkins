@@ -8,8 +8,6 @@ FROM {{ item.image }}
 
 RUN \
     if [ $(command -v apt-get) ]; then \
-        apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 \
-            --recv-keys 648ACFD622F3D138 && \
         apt-get update && \
         apt-get install -y apt-transport-https aptitude bash ca-certificates sudo \
             python python-apt && \
