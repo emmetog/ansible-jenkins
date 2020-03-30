@@ -23,6 +23,16 @@
   apt:
     name: debian-archive-keyring
 
+- name: Add apt keys for debian repositories
+  apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: "{{ key_item }}"
+  with_items:
+    - "04EE7237B7D453EC"
+    - "648ACFD622F3D138"
+  loop_control:
+    loop_var: key_item
+
 - name: Add Debian experimental repository for OpenJDK
   apt_repository:
     repo: deb http://httpredir.debian.org/debian experimental main
