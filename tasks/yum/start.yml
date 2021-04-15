@@ -1,12 +1,3 @@
 ---
 - name: "Start Jenkins"
   service: name="jenkins" state="started"
-- name: "Wait for Jenkins to come up"
-  uri:
-    url: "{{ jenkins_url }}"
-    status_code: 200
-    validate_certs: "{{ jenkins_https_validate_certs }}"
-  register: result
-  until: result.status == 200
-  retries: 60
-  delay: 1
