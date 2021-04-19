@@ -37,7 +37,7 @@
 - include: "configure-jobs.yml"
 
 - include: "{{ jenkins_after_config_jobs_file }}"
-  when: jenkins_after_config_jobs_file
+  when: jenkins_after_config_jobs_file | length > 0
 
 - include: "start.yml"
 
