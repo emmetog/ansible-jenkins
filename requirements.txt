@@ -1,4 +1,4 @@
-ansible==2.8.6
+ansible==2.9.20
 docker-py==1.10.6
 molecule==2.22
 python-jenkins==1.5.0
