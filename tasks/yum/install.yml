@@ -31,7 +31,7 @@
     dest: "/etc/yum.repos.d/jenkins.repo"
 
 - name: "Import Jenkins key"
-  command: "rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key"
+  command: "rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key"
   changed_when: false
 
 - name: "Install Jenkins"

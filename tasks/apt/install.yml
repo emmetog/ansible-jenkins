@@ -61,15 +61,25 @@
   ignore_errors: true
   changed_when: false
 
-- name: Add Jenkins key
-  apt_key:
-    url: "https://pkg.jenkins.io/debian-stable/jenkins.io.key"
-    state: present
-
-- name: Add Jenkins repository
+- name: Remove old Jenkins repository
   apt_repository:
     repo: 'deb https://pkg.jenkins.io/debian-stable binary/'
-    state: present
+    state: absent
+- name: Remove old Jenkins key
+  apt_key:
+    url: "https://pkg.jenkins.io/debian-stable/jenkins.io.key"
+    state: absent
+
+- name: Add Jenkins repository
+  block:
+    - name: Add Jenkins key
+      get_url:
+        url: "https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key"
+        dest: /usr/share/keyrings/jenkins-keyring.asc
+    - name: Add Jenkins repository
+      apt_repository:
+        repo: 'deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/'
+        state: present
 
 - name: Install Jenkins binary package
   apt:
